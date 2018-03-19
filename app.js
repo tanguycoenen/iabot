@@ -1,21 +1,32 @@
 var restify = require('restify');
 var builder = require('botbuilder');
 var csv = require('csv-array');
-var courses;
-
+var courses = [];
+var areasOfInterest = [];
+var levelOfExpertise = [];
+var duration = [];
 
 csv.parseCSV("courses.csv", function(data){
    courses = data;
+   mapItemsToField(3,areasOfInterest);
+   mapItemsToField(4,levelOfExpertise);
+   mapItemsToField(5,duration);
 },false);
 
 
-function mapItemsToField(colnr,data) {
-  /*for(var course of data){
-    console.log(course);
-  }*/
+function mapItemsToField(colnr,newArray) {
+  var i=0;
+  for(var course of courses){
+    if (!newArray.includes(course[colnr])&&i>0){
+      newArray.push(course[colnr]);
+      }
+    i=i+1;
+  }
+  console.log(newArray);
 }
 
-mapItemsToField(3,courses);
+
+
 
 // Setup Restify Server
 var server = restify.createServer();
@@ -62,24 +73,27 @@ bot.dialog('findCourseDialog', [
       function (session) {
           session.send("Welcome to the imec Academy course recommendation bot.");
           //builder.Prompts.text(session, "Please provide an area of interest");
-          builder.Prompts.choice(session, "Please provide an area of interest", "Technology|IC-design|Life science", { listStyle: builder.ListStyle.button });
+          //builder.Prompts.choice(session, "Please provide an area of interest", "Technology|IC-design|Life science", { listStyle: builder.ListStyle.button });
+          builder.Prompts.choice(session, "Please provide an area of interest", areasOfInterest, { listStyle: builder.ListStyle.button });
 
       },
       function (session, results) {
           session.dialogData.areaOfInterest = results.response;
-          builder.Prompts.text(session, "What is your level of exepertise?");
+          builder.Prompts.choice(session, "What is your level of expertise?", levelOfExpertise, { listStyle: builder.ListStyle.button });
+          //builder.Prompts.text(session, "What is your level of expertise?");
       },
       function (session, results) {
           session.dialogData.expertise = results.response;
-          builder.Prompts.text(session, "How long much time are you willing to spend on the training?");
+          builder.Prompts.choice(session, "How long much time are you willing to spend on the training?", duration, { listStyle: builder.ListStyle.button });
+          //builder.Prompts.text(session, "How long much time are you willing to spend on the training?");
       },
       function (session, results) {
           session.dialogData.duration = results.response;
 
           // Process request and display reservation details
           //session.send(`Reservation confirmed. Reservation details: <br/>Date/Time: ${session.dialogData.reservationDate} <br/>Party size: ${session.dialogData.partySize} <br/>Reservation name: ${session.dialogData.reservationName}`);
-          session.send(`Your details: ${session.dialogData.areaOfInterest.entity} <br/>Expertise level: ${session.dialogData.expertise} <br/>Duration: ${session.dialogData.duration}`);
-          var course = findCourse(session.dialogData.areaOfInterest.entity,session.dialogData.expertise,session.dialogData.duration)
+          session.send(`Your details: ${session.dialogData.areaOfInterest.entity} <br/>Expertise level: ${session.dialogData.expertise.entity} <br/>Duration: ${session.dialogData.duration.entity}`);
+          var course = findCourse(session.dialogData.areaOfInterest.entity,session.dialogData.expertise.entity,session.dialogData.duration.entity)
           session.send('We found the following couse for you:'+course);
           session.endDialog();
       }
