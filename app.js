@@ -8,6 +8,15 @@ csv.parseCSV("courses.csv", function(data){
    courses = data;
 },false);
 
+
+function mapItemsToField(colnr,data) {
+  /*for(var course of data){
+    console.log(course);
+  }*/
+}
+
+mapItemsToField(3,courses);
+
 // Setup Restify Server
 var server = restify.createServer();
 server.listen(process.env.port || process.env.PORT || 3978, function () {
@@ -32,6 +41,9 @@ function findCourse(area,expertise,duration) {
   console.log("****found course: "+course);
   return course;
 }
+
+
+
 
 // Receive messages from the user and respond by echoing each message back (prefixed with 'You said:')
 /*
@@ -66,8 +78,8 @@ bot.dialog('findCourseDialog', [
 
           // Process request and display reservation details
           //session.send(`Reservation confirmed. Reservation details: <br/>Date/Time: ${session.dialogData.reservationDate} <br/>Party size: ${session.dialogData.partySize} <br/>Reservation name: ${session.dialogData.reservationName}`);
-          session.send(`Your details: ${session.dialogData.areaOfInterest} <br/>Expertise level: ${session.dialogData.expertise} <br/>Duration: ${session.dialogData.duration}`);
-          var course = findCourse(session.dialogData.areaOfInterest,session.dialogData.expertise,session.dialogData.duration)
+          session.send(`Your details: ${session.dialogData.areaOfInterest.entity} <br/>Expertise level: ${session.dialogData.expertise} <br/>Duration: ${session.dialogData.duration}`);
+          var course = findCourse(session.dialogData.areaOfInterest.entity,session.dialogData.expertise,session.dialogData.duration)
           session.send('We found the following couse for you:'+course);
           session.endDialog();
       }
