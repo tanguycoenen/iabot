@@ -76,39 +76,50 @@ var inMemoryStorage = new builder.MemoryBotStorage();
 
 var bot = new builder.UniversalBot(connector);
 
+bot.dialog('startDialog', [
+  function (session) {
+    session.send('I am the Imec Academy bot, AIBOT for short, nice to meet you');
+    builder.Prompts.choice(session, "Would you like me to help you find one of our great courses?", ["yes","no"], { listStyle: builder.ListStyle.button });
+    // if yes, then start findCourseDialog
+  },
+  function (session, results) {
+    console.log(results.response);
+    if (results.response.entity == "yes")
+        session.beginDialog('findCourseDialog');
+  }
+  ]);
+
+
 bot.dialog('findCourseDialog', [
-      function (session) {
-          session.send("Welcome to the imec Academy course recommendation bot.");
-          //builder.Prompts.text(session, "Please provide an area of interest");
-          //builder.Prompts.choice(session, "Please provide an area of interest", "Technology|IC-design|Life science", { listStyle: builder.ListStyle.button });
-          builder.Prompts.choice(session, "Please provide an area of interest", areasOfInterest, { listStyle: builder.ListStyle.button });
+  function (session) {
+      session.send("Ok, let's go...");
+      builder.Prompts.choice(session, "Please provide an area of interest", areasOfInterest, { listStyle: builder.ListStyle.button });
+  },
+  function (session, results) {
+      session.dialogData.areaOfInterest = results.response;
+      builder.Prompts.choice(session, "What is your level of expertise?", levelOfExpertise, { listStyle: builder.ListStyle.button });
+      //builder.Prompts.text(session, "What is your level of expertise?");
+  },
+  function (session, results) {
+      session.dialogData.expertise = results.response;
+      builder.Prompts.choice(session, "How long much time are you willing to spend on the training?", duration, { listStyle: builder.ListStyle.button });
+      //builder.Prompts.text(session, "How long much time are you willing to spend on the training?");
+  },
+  function (session, results) {
+      session.dialogData.duration = results.response;
 
-      },
-      function (session, results) {
-          session.dialogData.areaOfInterest = results.response;
-          builder.Prompts.choice(session, "What is your level of expertise?", levelOfExpertise, { listStyle: builder.ListStyle.button });
-          //builder.Prompts.text(session, "What is your level of expertise?");
-      },
-      function (session, results) {
-          session.dialogData.expertise = results.response;
-          builder.Prompts.choice(session, "How long much time are you willing to spend on the training?", duration, { listStyle: builder.ListStyle.button });
-          //builder.Prompts.text(session, "How long much time are you willing to spend on the training?");
-      },
-      function (session, results) {
-          session.dialogData.duration = results.response;
+      // Process request and display reservation details
+      //session.send(`Reservation confirmed. Reservation details: <br/>Date/Time: ${session.dialogData.reservationDate} <br/>Party size: ${session.dialogData.partySize} <br/>Reservation name: ${session.dialogData.reservationName}`);
+      session.send(`Your details: ${session.dialogData.areaOfInterest.entity} <br/>Expertise level: ${session.dialogData.expertise.entity} <br/>Duration: ${session.dialogData.duration.entity}`);
+      var course = findCourse(session.dialogData.areaOfInterest.entity,session.dialogData.expertise.entity,session.dialogData.duration.entity )
+      if (course)
+        session.send('We found the following couse for you:'+course);
+      else {
 
-          // Process request and display reservation details
-          //session.send(`Reservation confirmed. Reservation details: <br/>Date/Time: ${session.dialogData.reservationDate} <br/>Party size: ${session.dialogData.partySize} <br/>Reservation name: ${session.dialogData.reservationName}`);
-          session.send(`Your details: ${session.dialogData.areaOfInterest.entity} <br/>Expertise level: ${session.dialogData.expertise.entity} <br/>Duration: ${session.dialogData.duration.entity}`);
-          var course = findCourse(session.dialogData.areaOfInterest.entity,session.dialogData.expertise.entity,session.dialogData.duration.entity )
-          if (course)
-            session.send('We found the following couse for you:'+course);
-          else {
-
-          }
-          session.endDialog();
       }
-    ])
+      session.endDialog();
+  }
+  ]);
 
     // The dialog stack is cleared and this dialog is invoked when the user enters 'help'.
     bot.dialog('help', function (session, args, next) {
@@ -118,12 +129,14 @@ bot.dialog('findCourseDialog', [
         matches: /^help$/i,
     });
 
+
+
 const LuisModelUrl = 'https://westus.api.cognitive.microsoft.com/luis/v2.0/apps/8ef54f6e-1b7c-493b-b93d-45668bf93dbf?subscription-key=a1f8565cfb844254b2ff3b7076896d9a&verbose=true&timezoneOffset=60&q=';
 
 var recognizer = new builder.LuisRecognizer(LuisModelUrl);
 var intents = new builder.IntentDialog({ recognizers: [recognizer] })
 .matches('identity', (session) => {
-    session.send('I am the Imec Academy bot, AIBOT for short, nice to meet you');
+    session.beginDialog('startDialog');
 })
 .matches('find_course', (session) => {
     //session.send("Let's try to find you a course");
