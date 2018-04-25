@@ -5,15 +5,22 @@ var courses = [];
 var areasOfInterest = [];
 var levelOfExpertise = [];
 var duration = [];
+var info = [];
+var targetProfile = [];
+
 
 csv.parseCSV("courses.csv", function(data){
    courses = data;
    mapItemsToField(3,areasOfInterest);
    mapItemsToField(4,levelOfExpertise);
-   mapItemsToField(5,duration);
+   mapItemsToField(5,targetProfile);
+   mapItemsToField(6,duration);
+   //mapItemsToField(7,info);
 },false);
 
-
+/*
+Map a column in the parsed csv to a particular array
+*/
 function mapItemsToField(colnr,newArray) {
   var i=0;
   for(var course of courses){
@@ -36,10 +43,10 @@ server.listen(process.env.port || process.env.PORT || 3978, function () {
 
 // Create chat connector for communicating with the Bot Framework Service
 var connector = new builder.ChatConnector({
-    appId: process.env.MicrosoftAppId,
-    appPassword: process.env.MicrosoftAppPassword
-    //appId: null,
-    //appPassword: null
+    //appId: process.env.MicrosoftAppId,
+    //appPassword: process.env.MicrosoftAppPassword
+    appId: null,
+    appPassword: null
 });
 
 
@@ -93,8 +100,12 @@ bot.dialog('findCourseDialog', [
           // Process request and display reservation details
           //session.send(`Reservation confirmed. Reservation details: <br/>Date/Time: ${session.dialogData.reservationDate} <br/>Party size: ${session.dialogData.partySize} <br/>Reservation name: ${session.dialogData.reservationName}`);
           session.send(`Your details: ${session.dialogData.areaOfInterest.entity} <br/>Expertise level: ${session.dialogData.expertise.entity} <br/>Duration: ${session.dialogData.duration.entity}`);
-          var course = findCourse(session.dialogData.areaOfInterest.entity,session.dialogData.expertise.entity,session.dialogData.duration.entity)
-          session.send('We found the following couse for you:'+course);
+          var course = findCourse(session.dialogData.areaOfInterest.entity,session.dialogData.expertise.entity,session.dialogData.duration.entity )
+          if (course)
+            session.send('We found the following couse for you:'+course);
+          else {
+
+          }
           session.endDialog();
       }
     ])

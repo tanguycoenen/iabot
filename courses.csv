@@ -1,1 +1,54 @@
-﻿Course,Target profile,Format delivery,Area of interest,Level of expertise,Duration,PricingTech course 1,Both,Classroom,Technology,Basic,Half day,€ 500Tech course 2,Both,Classroom,Technology,Expert,Multi day,€ 2.000Tech course 3,Internal only,Classroom,Technology,Expert,Multi day,€ 2.000Tech course 4,Internal only,Classroom,Technology,Expert,Multi day,€ 2.000Tech course 5,Both,Classroom,IC Design,Intermediate,One day,€ 1.000Tech course 6,Both,Classroom,IC Design,Expert,Multi day,€ 2.000Tech course 7,Internal only,Classroom,IC Design,Expert,Multi day,€ 2.000Tech course 8,Internal only,Classroom,IC Design,Expert,One day,€ 1.000Tech course 9,Both,Classroom,Life Science,Basic,Half day,€ 500Tech course 10,Both,Classroom,Life Science,Intermediate,One day,€ 1.000Tech course 11,Both,Webinar,Technology,Intermediate,,No costTech course 12,Both,Webinar,IC Design,Intermediate,,No costTech course 13,Both,Webinar,Life Science,Basic,,No costTech course 14,Both,Seminar,Technology,Basic,Half day,€ 500Tech course 15,Both,Seminar,Technology,Intermediate,Half day,€ 500Tech course 16,Internal only,Seminar,IC Design,Intermediate,Half day,€ 500Tech course 17,Internal only,Seminar,Life Science,Intermediate,Half day,€ 500Tech course 18,Both,Recording,Technology,Intermediate,,€ 300Tech course 19,Both,Recording,Technology,Expert,,€ 300Tech course 20,Both,Recording,IC Design,Expert,,€ 300Tech course 21,Both,Recording,Life Science,Intermediate,,€ 300Tech course 22,Both,Recording,Life Science,Expert,,€ 300Soft skill training 1,Internal only (all imec employees),Classroom,Feedback & Communication,Basic,Half day,Internal training budgetSoft skill training 2,Internal only (managers only),Classroom,Feedback & Communication,Intermediate,One day,Internal training budgetSoft skill training 3,Internal only (managers only),Classroom,Management Development,Intermediate,One day,€ 2.000Soft skill training 4,Internal only (managers only),Classroom,Management Development,Expert,Multi day,€ 5.000Soft skill training 5,Internal only (all imec employees),Classroom,Team Development,Basic,Half day,Internal training budgetSoft skill training 6,Internal only (all imec employees),Classroom,Individual coaching,Intermediate,Half day,Internal training budgetSoft skill training 7,Internal only (all imec employees),Online,Feedback & Communication,Intermediate,,Internal training budgetSoft skill training 8,Internal only (managers only),Online,Management Development,Intermediate,,Internal training budgetSoft skill training 9,Internal only (all imec employees),Online,Team Development,Intermediate,,Internal training budgetSoft skill training 10,Internal only (all imec employees),Online,Individual coaching,Intermediate,,Internal training budget
+﻿Course,Type,Format delivery,Area of interest,Level of expertise,Target profile,Duration
+Insights Team Effectiveness,Buseinss training,Classroom Training,Team Excellence,Basic,Internal only,1 day
+imec Time - employee,Buseinss training,Online,Personal Excellence,Basic,Internal only,10min
+imec Time - manager,Buseinss training,Online,Personal Excellence,Basic,Internal only,10min
+Tax Formalities in Belgium,Buseinss training,Online,Personal Excellence,Basic,Internal only,2 hours
+English Language training (BLCC),Buseinss training,Classroom Training,Personal Excellence,Basic,Internal only,Multiple day
+Presentation Skills (Kluwer),Buseinss training,Classroom Training,Personal Excellence,Basic,Internal only,Multiple day
+Time Management (Kluwer),Buseinss training,Classroom Training,Personal Excellence,Basic,Internal only,1 day
+Manage your personal growth,Buseinss training,Classroom Training,Personal Excellence,Basic,Internal only,Multiple day
+Communicating effectively as a leader (Kluwer),Buseinss training,Classroom Training,Leadership Excellence,Basic,Internal only,1 day
+Enhance your coaching skills,Buseinss training,Classroom Training,Leadership Excellence,Basic,Internal only,1 day
+Giving feedback with impact,Buseinss training,Classroom Training,Leadership Excellence,Basic,Internal only,1 day
+Leading people through change (Kluwer),Buseinss training,Classroom Training,Leadership Excellence,Basic,Internal only,Multiple day
+Interviewing skills: selecting the right people,Buseinss training,Classroom Training,Leadership Excellence,Basic,Internal only,1 day
+Public speaking for researchers,Buseinss training,Classroom Training,Research Excellence,Basic,Internal only,Multiple day
+Scientific writing,Buseinss training,Classroom Training,Research Excellence,Basic,Internal only,Multiple day
+Finance basics for non finance staff,Buseinss training,Classroom Training,Research Excellence,Basic,Internal only,1 day
+Research integrety at imec,Buseinss training,Online,Research Excellence,Basic,Internal only,1 hour
+IP Business protection,Buseinss training,Online,Research Excellence,Basic,Internal only,1 hour
+Europractice Photonic Integrated Circuit (PIC) Training,Technical training,Classroom Training,IC Design,Intermediate,Both,Multi day
+imec circuits & systems conference,Technical training,Classroom Training,IC Design,Intermediate,Internal only,1 day
+Machine Learning: Neuronal Networks and Deep Learning Systems,Technical training,Classroom Training,IC Design,Intermediate,Both,Multi day
+VHDL Language and design flow,Technical training,Classroom Training,IC Design,Intermediate,Both,Multi day
+SOI Design,Technical training,Classroom Training,IC Design,Intermediate,Both,Multi day
+GTS TCAD Tools for Design-Technology-Co-Optimization of Logic Cells ,Technical training,Handson training,IC Design,Intermediate,Both,1 day
+GTS Tools in a Nutshell - Introduction to advanced TCAD for Pathfinding Applications,Technical training,Handson training,IC Design,Basic,Both,1 day
+Analog RF Circuit design in finfet technologies,Technical training,Seminar,IC Design,Medium,External only,1 day
+Essential verification with SystemVerilog and UVM ,Technical training,Handson training,IC Design,Intermediate,Both,Multi day
+Advanced verification with UVM,Technical training,Handson training,IC Design,Expert,Both,Multi day
+Hyperspectral Colony Counting for food safety testing,Technical training,Classroom,Life Science,Low,Both,1 day
+Hybrid Materials and Technologies for Energy Storage Applications,Technical training,Classroom,Life Science,Medium,Both,Multi day
+Life Science Challenges and silicon solutions,Technical training,Seminar,Life Science,Medium,External only,1 day
+Human-robot interactions,Technical training,Recording,Life Science,Intermediate,Both,1 hour
+Keysight Advanced RF,Technical training,Classroom Training,Life Science,Intermediate,Both,1 day
+NERF seminar: Functional ultrasound imaging of the dynamical structure of socio-vocal network in monkeys,Technical training,Seminar,Life Science,Intermediate,Both,1 hour
+NERF seminar: From behavior to circuits: Reverse engineering active sensing in the rodent,Technical training,Seminar,Life Science,Intermediate,Both,1 hour
+NERF Seminar: Encoding of three-dimensional head-displacement vectors for goal-oriented actions in the mouse,Technical training,Seminar,Life Science,Intermediate,Both,1 hour
+Nanotechnology for Health,Technical training,Classroom,Life Science,Intermediate,Both,Multi day
+Nanotechnology for Health,Technical training,Recording,Life Science,Intermediate,Both,Multiple hours
+Lab on Chip,Technical training,Recording,Life Science,Intermediate,Both,Multiple hours
+Algorithms for pattern detection on streaming data,Technical training,Recording,Life Science,Intermediate,Both,1 hour
+Acquaint: sensors for food,Technical training,Recording,Life Science,Basic,Internal only,1 hour
+Introduction to EUV microlithographic scanner systems,Technical training,Recording,Life Science,Intermediate,Both,1,5 hours
+Introduction to nanoscale CMOS technology: process flow & process steps,Technical training,Classroom Training,Semiconductor Technology,Intermediate,Both,Multi day
+Introduction to nanoscale CMOS technology: process flow & process steps,Technical training,Recording,Semiconductor Technology,Intermediate,Both,Multiple hours
+BEOL Training,Technical training,Seminar,Semiconductor Technology,Basic,Both,1 hour
+NX3DM (in-line 3D AFM) Data Offline Analysis,Technical training,Classroom Training,Semiconductor Technology,Basic,Both,Multiple hours
+Reliability and Failure mechanisms in advanced CMOS technologies,Technical training,Classroom Training,Semiconductor Technology,Intermediate,Both,Multi day
+Advanced CMOS process technology,Technical training,Classroom Training,Semiconductor Technology,Intermediate,Both,Multi day
+The Opportunities offered by a novel approach to graphene on silicon,Technical training,Recording,Semiconductor Technology,Intermediate,Both,1 hour
+Recent Advances in Understanding the Bias temperature Instability,Technical training,Recording,Semiconductor Technology,Intermediate,Both,1 hour
+Nanoscale CMOS process technology,Technical training,Classroom,Semiconductor Technology,Intermediate,Both,Multi day
+Advanced Lithography,Technical training,Recording,Semiconductor Technology,Intermediate,Both,1,5 hours
+Component- and system-level ESD,Technical training,Classroom,Semiconductor Technology,High,External only,Multi day
