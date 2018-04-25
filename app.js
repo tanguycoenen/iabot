@@ -12,6 +12,8 @@ var formatOfDelivery = [];
 
 //positions of the parameters in the csv
 var typePosition = 1;
+var interestPosition = 3;
+var expertisePosition = 4;
 
 csv.parseCSV("courses.csv", function(data){
    courses = data;
@@ -22,8 +24,8 @@ csv.parseCSV("courses.csv", function(data){
 function mapItemsToFields(){
   type = mapItemToField(typePosition);
   formatOfDelivery = mapItemToField(2);
-  areasOfInterest = mapItemToField(3);
-  levelOfExpertise = mapItemToField(4);
+  areasOfInterest = mapItemToField(interestPosition);
+  levelOfExpertise = mapItemToField(expertisePosition);
   targetProfile = mapItemToField(5);
   duration = mapItemToField(6);
 }
@@ -107,8 +109,6 @@ bot.dialog('findCourseDialog', [
   //todo: make sure the choices can be made are restricted by the previous choices, so the user is more likely to find a course
   function (session) {
       session.send("Ok, let's go...");
-      console.log("*****type");
-      console.log(type);
       builder.Prompts.choice(session, "What type of course are you interested in?", type, { listStyle: builder.ListStyle.button });
   },
   function (session, results) {
@@ -119,13 +119,15 @@ bot.dialog('findCourseDialog', [
   },
   function (session, results) {
       session.dialogData.areaOfInterest = results.response;
+      findCoursesByContext(interestPosition,results.response.entity);
+      mapItemsToFields();
       builder.Prompts.choice(session, "What is your level of expertise?", levelOfExpertise, { listStyle: builder.ListStyle.button });
-      //builder.Prompts.text(session, "What is your level of expertise?");
   },
   function (session, results) {
       session.dialogData.expertise = results.response;
+      findCoursesByContext(expertisePosition,results.response.entity);
+      mapItemsToFields();
       builder.Prompts.choice(session, "How long much time are you willing to spend on the training?", duration, { listStyle: builder.ListStyle.button });
-      //builder.Prompts.text(session, "How long much time are you willing to spend on the training?");
   },
   function (session, results) {
       session.dialogData.duration = results.response;
