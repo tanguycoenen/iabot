@@ -160,6 +160,14 @@ bot.dialog('findCourseDialog', [
       console.log(courses[0][infoPosition]);
       session.send(courses[0][infoPosition]);
       //builder.Prompts.choice(session, "Please provide an area of interest", areasOfInterest, { listStyle: builder.ListStyle.button });
+      builder.Prompts.choice(session, "Would you like to enroll in this course?", ["yes","no"], { listStyle: builder.ListStyle.button });
+  },
+  function (session, results) {
+    if (results.response.entity == "yes") {
+        session.send("Ok, one of my collegues at imec Academy wil get in touch for more info on this course");
+        session.send("It was lovely talking to you!");
+
+        }
   }
   ]);
 
