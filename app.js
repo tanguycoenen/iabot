@@ -2,6 +2,7 @@ var restify = require('restify');
 var builder = require('botbuilder');
 var csv = require('csv-array');
 var courses = [];
+var courseInfo = [];
 var areasOfInterest = [];
 var levelOfExpertise = [];
 var duration = [];
@@ -11,23 +12,27 @@ var type = [];
 var formatOfDelivery = [];
 
 //positions of the parameters in the csv
+var titlePosition = 0;
 var typePosition = 1;
 var interestPosition = 3;
 var expertisePosition = 4;
+var infoPosition = 7;
 
-csv.parseCSV("courses.csv", function(data){
+csv.parseCSV("courses_semi.csv", function(data){
    courses = data;
    mapItemsToFields();
    //mapItemsToField(7,info);
 },false);
 
 function mapItemsToFields(){
+  title = mapItemToField(titlePosition);
   type = mapItemToField(typePosition);
   formatOfDelivery = mapItemToField(2);
   areasOfInterest = mapItemToField(interestPosition);
   levelOfExpertise = mapItemToField(expertisePosition);
   targetProfile = mapItemToField(5);
   duration = mapItemToField(6);
+  info = mapItemToField(infoPosition);
 }
 
 /*
@@ -117,7 +122,8 @@ bot.dialog('findCourseDialog', [
       mapItemsToFields();
       builder.Prompts.choice(session, "Please provide an area of interest", areasOfInterest, { listStyle: builder.ListStyle.button });
   },
-  function (session, results) {
+
+  /*function (session, results) {
       session.dialogData.areaOfInterest = results.response;
       findCoursesByContext(interestPosition,results.response.entity);
       mapItemsToFields();
@@ -128,12 +134,15 @@ bot.dialog('findCourseDialog', [
       findCoursesByContext(expertisePosition,results.response.entity);
       mapItemsToFields();
       builder.Prompts.choice(session, "How long much time are you willing to spend on the training?", duration, { listStyle: builder.ListStyle.button });
-  },
+  },*/
   function (session, results) {
-      session.dialogData.duration = results.response;
+      //show only the titles of the selected courses and allow the user to choose one
+      session.dialogData.areaOfInterest = results.response;
+      findCoursesByContext(interestPosition,results.response.entity);
+      mapItemsToFields();
+      builder.Prompts.choice(session, "We found the following courses for you. Click one to find out more.", title, { listStyle: builder.ListStyle.button });
 
-      // Process request and display reservation details
-      //session.send(`Reservation confirmed. Reservation details: <br/>Date/Time: ${session.dialogData.reservationDate} <br/>Party size: ${session.dialogData.partySize} <br/>Reservation name: ${session.dialogData.reservationName}`);
+      /*session.dialogData.duration = results.response;
       session.send(`Your details: ${session.dialogData.areaOfInterest.entity} <br/>Expertise level: ${session.dialogData.expertise.entity} <br/>Duration: ${session.dialogData.duration.entity}`);
       var course = findCourse(session.dialogData.areaOfInterest.entity,session.dialogData.expertise.entity,session.dialogData.duration.entity )
       if (course)
@@ -141,7 +150,16 @@ bot.dialog('findCourseDialog', [
       else {
         session.send("I'm very sorry, but I found no course that matches your needs");
       }
-      session.endDialog();
+      session.endDialog();*/
+  },
+  function (session, results) {
+      session.dialogData.title = results.response;
+      findCoursesByContext(titlePosition,results.response.entity);
+      //mapItemsToFields();
+      console.log("******info");
+      console.log(courses[0][infoPosition]);
+      session.send(courses[0][infoPosition]);
+      //builder.Prompts.choice(session, "Please provide an area of interest", areasOfInterest, { listStyle: builder.ListStyle.button });
   }
   ]);
 
@@ -158,8 +176,11 @@ function findCourse(area,expertise,duration) {
   return course;
 }
 
+/*
+searchIndex: the column of the array in which to search
+searchTerm: the string which the search should match
+*/
 function findCoursesByContext(searchIndex,searchTerm) {
-  //send a number of parameters and find the courses that match, to be able to show a limited set of choice options
   //substitute the courses global variable by a smaller subset
   //working with global vars in this way is bad practice, shuold be refactored
   console.log("*************search term= "+searchTerm);
