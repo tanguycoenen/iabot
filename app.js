@@ -18,11 +18,12 @@ var interestPosition = 3;
 var expertisePosition = 4;
 var infoPosition = 7;
 
-csv.parseCSV("courses_semi.csv", function(data){
-   courses = data;
-   mapItemsToFields();
-   //mapItemsToField(7,info);
-},false);
+function reset(){
+  csv.parseCSV("courses_semi.csv", function(data){
+     courses = data;
+     mapItemsToFields();
+   },false);
+}
 
 function mapItemsToFields(){
   title = mapItemToField(titlePosition);
@@ -51,7 +52,7 @@ function mapItemToField(colnr) {
 }
 
 
-
+reset();
 
 // Setup Restify Server
 var server = restify.createServer();
@@ -164,9 +165,9 @@ bot.dialog('findCourseDialog', [
   },
   function (session, results) {
     if (results.response.entity == "yes") {
-        session.send("Ok, one of my collegues at imec Academy wil get in touch for more info on this course");
-        session.send("It was lovely talking to you!");
-
+        session.send("Ok, one of my collegues at imec Academy wil get in touch for more info on this course.");
+        reset();
+        session.endDialog("It was lovely talking to you!");
         }
   }
   ]);
