@@ -22,7 +22,7 @@ var durationPosition = 6;
 var infoPosition = 7;
 
 function reset(){
-  csv.parseCSV("courses_semi.csv", function(data){
+  csv.parseCSV("courses.csv", function(data){
      courses = data;
      mapItemsToFields();
    },false);
