@@ -165,10 +165,15 @@ bot.dialog('findCourseDialog', [
   },
   function (session, results) {
     if (results.response.entity == "yes") {
-        session.send("Ok, one of my collegues at imec Academy wil get in touch for more info on this course.");
-        reset();
-        session.endDialog("It was lovely talking to you!");
+        builder.Prompts.text(session, "What is your name?");
         }
+  },
+  function (session, results) {
+      session.dialogData.email = results.response;
+      session.send(results.response.entity);
+      session.send("Ok, one of my collegues at imec Academy wil get in touch for more info on this course.");
+      reset();
+      session.endDialog("It was lovely talking to you!");
   }
   ]);
 
