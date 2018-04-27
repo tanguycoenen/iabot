@@ -24,11 +24,11 @@ var infoPosition = 7;
 function reset(){
   csv.parseCSV("courses.csv", function(data){
      courses = data;
-     mapItemsToFields();
+     //mapItemsToFields();
    },false);
 }
 
-function mapItemsToFields(){
+/*function mapItemsToFields(){
   title = mapItemToField(titlePosition);
   type = mapItemToField(typePosition);
   formatOfDelivery = mapItemToField(formatPosition);
@@ -37,7 +37,7 @@ function mapItemsToFields(){
   targetProfile = mapItemToField(targetPosition);
   duration = mapItemToField(durationPosition);
   info = mapItemToField(infoPosition);
-}
+}*/
 
 /*
 Map a column in the parsed csv to a particular array, not inluding duplicates
@@ -46,6 +46,19 @@ function mapItemToField(colnr) {
   var newArray = [];
   var i = 0;
   for(var course of courses){
+    if (!newArray.includes(course[colnr])&&i>0){
+      newArray.push(course[colnr]);
+      }
+    i=i+1;
+  }
+  return newArray;
+}
+
+function removeDuplicates(coursesArray,colnr) {
+  //todo make more efficient by only cycling though the coursesArray elements that are in the colnr
+  var newArray = [];
+  var i = 0;
+  for(var course of coursesArray){
     if (!newArray.includes(course[colnr])&&i>0){
       newArray.push(course[colnr]);
       }
@@ -117,41 +130,32 @@ bot.dialog('findCourseDialog', [
   //todo: make sure the choices can be made are restricted by the previous choices, so the user is more likely to find a course
   function (session) {
       session.send("Ok, let's go...");
+      type = removeDuplicates(courses,typePosition)
       builder.Prompts.choice(session, "What type of course are you interested in?", type, { listStyle: builder.ListStyle.button });
   },
   function (session, results) {
       session.dialogData.type = results.response;
-      findCoursesByContext(typePosition,results.response.entity);
-      mapItemsToFields();
-      builder.Prompts.choice(session, "Please provide an area of interest", areasOfInterest, { listStyle: builder.ListStyle.button });
+      filteredCourses = findCoursesByContext(typePosition,results.response.entity);
+      areaOfInterest = removeDuplicates(filteredCourses,interestPosition)
+      builder.Prompts.choice(session, "Please provide an area of interest", areaOfInterest, { listStyle: builder.ListStyle.button });
   },
   function (session, results) {
       //show only the titles of the selected courses and allow the user to choose one
       session.dialogData.areaOfInterest = results.response;
-      findCoursesByContext(interestPosition,results.response.entity);
-      mapItemsToFields();
+      filteredCourses = findCoursesByContext(interestPosition,results.response.entity);
+      title = removeDuplicates(filteredCourses,titlePosition);
       builder.Prompts.choice(session, "We found the following courses for you. Click one to find out more.", title, { listStyle: builder.ListStyle.button });
-
-      /*session.dialogData.duration = results.response;
-      session.send(`Your details: ${session.dialogData.areaOfInterest.entity} <br/>Expertise level: ${session.dialogData.expertise.entity} <br/>Duration: ${session.dialogData.duration.entity}`);
-      var course = findCourse(session.dialogData.areaOfInterest.entity,session.dialogData.expertise.entity,session.dialogData.duration.entity )
-      if (course)
-        session.send('We found the following couse for you:'+course);
-      else {
-        session.send("I'm very sorry, but I found no course that matches your needs");
-      }
-      session.endDialog();*/
   },
   function (session, results) {
       session.dialogData.title = results.response;
-      findCoursesByContext(titlePosition,results.response.entity);
+      filteredCourses = findCoursesByContext(titlePosition,results.response.entity);
       console.log("******info");
-      console.log(courses[0][infoPosition]);
-      session.send(courses[0][infoPosition]);
-      session.send("Expertise level: "+courses[0][expertisePosition]);
-      session.send("Duration: "+courses[0][durationPosition]);
-      session.send("Target audience: "+courses[0][targetPosition]);
-      session.send("Delivery format: "+courses[0][formatPosition]);
+      console.log(filteredCourses[0][infoPosition]);
+      session.send(filteredCourses[0][infoPosition]);
+      session.send("Expertise level: "+filteredCourses[0][expertisePosition]);
+      session.send("Duration: "+filteredCourses[0][durationPosition]);
+      session.send("Target audience: "+filteredCourses[0][targetPosition]);
+      session.send("Delivery format: "+filteredCourses[0][formatPosition]);
       //builder.Prompts.choice(session, "Please provide an area of interest", areasOfInterest, { listStyle: builder.ListStyle.button });
       builder.Prompts.choice(session, "Would you like to enroll in this course?", ["yes","no"], { listStyle: builder.ListStyle.button });
   },
@@ -193,7 +197,6 @@ searchTerm: the string which the search should match
 function findCoursesByContext(searchIndex,searchTerm) {
   //substitute the courses global variable by a smaller subset
   //working with global vars in this way is bad practice, shuold be refactored
-  console.log("*************search term= "+searchTerm);
-  courses = courses.filter(o => o[searchIndex] === searchTerm);
-  console.log(courses);
+  filteredCourses = courses.filter(o => o[searchIndex] === searchTerm);
+  return filteredCourses;
 }
