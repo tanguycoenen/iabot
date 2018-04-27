@@ -2,14 +2,7 @@ var restify = require('restify');
 var builder = require('botbuilder');
 var csv = require('csv-array');
 var courses = [];
-var courseInfo = [];
-var areasOfInterest = [];
-var levelOfExpertise = [];
-var duration = [];
-var info = [];
-var targetProfile = [];
-var type = [];
-var formatOfDelivery = [];
+
 
 //positions of the parameters in the csv
 var titlePosition = 0;
@@ -26,32 +19,6 @@ function reset(){
      courses = data;
      //mapItemsToFields();
    },false);
-}
-
-/*function mapItemsToFields(){
-  title = mapItemToField(titlePosition);
-  type = mapItemToField(typePosition);
-  formatOfDelivery = mapItemToField(formatPosition);
-  areasOfInterest = mapItemToField(interestPosition);
-  levelOfExpertise = mapItemToField(expertisePosition);
-  targetProfile = mapItemToField(targetPosition);
-  duration = mapItemToField(durationPosition);
-  info = mapItemToField(infoPosition);
-}*/
-
-/*
-Map a column in the parsed csv to a particular array, not inluding duplicates
-*/
-function mapItemToField(colnr) {
-  var newArray = [];
-  var i = 0;
-  for(var course of courses){
-    if (!newArray.includes(course[colnr])&&i>0){
-      newArray.push(course[colnr]);
-      }
-    i=i+1;
-  }
-  return newArray;
 }
 
 function removeDuplicates(coursesArray,colnr) {
@@ -164,7 +131,7 @@ bot.dialog('findCourseDialog', [
         builder.Prompts.text(session, "What is your email address?");
         }
         else {
-          reset()
+          //reset()
           session.send("Ok, would you like to look for another course?");
         }
   },
@@ -172,7 +139,7 @@ bot.dialog('findCourseDialog', [
       session.dialogData.email = results.response;
       session.send(results.response.entity);
       session.send("Ok, one of my collegues at imec Academy wil get in touch for more info on this course.");
-      reset();
+      //reset();
       session.endDialog("It was lovely talking to you!");
   }
   ]);
@@ -184,11 +151,6 @@ bot.dialog('findCourseDialog', [
     .triggerAction({
         matches: /^help$/i,
     });
-
-function findCourse(area,expertise,duration) {
-  var course = courses.find(o => o[3] === area && o[4] === expertise && o[5]);
-  return course;
-}
 
 /*
 searchIndex: the column of the array in which to search
