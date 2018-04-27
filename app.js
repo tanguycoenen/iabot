@@ -65,8 +65,8 @@ server.listen(process.env.port || process.env.PORT || 3978, function () {
 
 // Create chat connector for communicating with the Bot Framework Service
 var connector = new builder.ChatConnector({
-    //appId: process.env.MicrosoftAppId,
-    //appPassword: process.env.MicrosoftAppPassword
+    appId: process.env.MicrosoftAppId,
+    appPassword: process.env.MicrosoftAppPassword
 
     /*When using the emulator, use the null credentials*/
     appId: null,
@@ -126,19 +126,6 @@ bot.dialog('findCourseDialog', [
       mapItemsToFields();
       builder.Prompts.choice(session, "Please provide an area of interest", areasOfInterest, { listStyle: builder.ListStyle.button });
   },
-
-  /*function (session, results) {
-      session.dialogData.areaOfInterest = results.response;
-      findCoursesByContext(interestPosition,results.response.entity);
-      mapItemsToFields();
-      builder.Prompts.choice(session, "What is your level of expertise?", levelOfExpertise, { listStyle: builder.ListStyle.button });
-  },
-  function (session, results) {
-      session.dialogData.expertise = results.response;
-      findCoursesByContext(expertisePosition,results.response.entity);
-      mapItemsToFields();
-      builder.Prompts.choice(session, "How long much time are you willing to spend on the training?", duration, { listStyle: builder.ListStyle.button });
-  },*/
   function (session, results) {
       //show only the titles of the selected courses and allow the user to choose one
       session.dialogData.areaOfInterest = results.response;
