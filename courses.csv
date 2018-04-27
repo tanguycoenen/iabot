@@ -1,54 +1,54 @@
-﻿Course,Type,Format delivery,Area of interest,Level of expertise,Target profile,Duration
-Insights Team Effectiveness,Business training,Classroom Training,Team Excellence,Basic,Internal only,1 day
-imec Time - employee,Business training,Online,Personal Excellence,Basic,Internal only,10min
-imec Time - manager,Business training,Online,Personal Excellence,Basic,Internal only,10min
-Tax Formalities in Belgium,Business training,Online,Personal Excellence,Basic,Internal only,2 hours
-English Language training (BLCC),Business training,Classroom Training,Personal Excellence,Basic,Internal only,Multiple day
-Presentation Skills (Kluwer),Business training,Classroom Training,Personal Excellence,Basic,Internal only,Multiple day
-Time Management (Kluwer),Business training,Classroom Training,Personal Excellence,Basic,Internal only,1 day
-Manage your personal growth,Business training,Classroom Training,Personal Excellence,Basic,Internal only,Multiple day
-Communicating effectively as a leader (Kluwer),Business training,Classroom Training,Leadership Excellence,Basic,Internal only,1 day
-Enhance your coaching skills,Business training,Classroom Training,Leadership Excellence,Basic,Internal only,1 day
-Giving feedback with impact,Business training,Classroom Training,Leadership Excellence,Basic,Internal only,1 day
-Leading people through change (Kluwer),Business training,Classroom Training,Leadership Excellence,Basic,Internal only,Multiple day
-Interviewing skills: selecting the right people,Business training,Classroom Training,Leadership Excellence,Basic,Internal only,1 day
-Public speaking for researchers,Business training,Classroom Training,Research Excellence,Basic,Internal only,Multiple day
-Scientific writing,Business training,Classroom Training,Research Excellence,Basic,Internal only,Multiple day
-Finance basics for non finance staff,Business training,Classroom Training,Research Excellence,Basic,Internal only,1 day
-Research integrety at imec,Business training,Online,Research Excellence,Basic,Internal only,1 hour
-IP Business protection,Business training,Online,Research Excellence,Basic,Internal only,1 hour
-Europractice Photonic Integrated Circuit (PIC) Training,Technical training,Classroom Training,IC Design,Intermediate,Both,Multi day
-imec circuits & systems conference,Technical training,Classroom Training,IC Design,Intermediate,Internal only,1 day
-Machine Learning: Neuronal Networks and Deep Learning Systems,Technical training,Classroom Training,IC Design,Intermediate,Both,Multi day
-VHDL Language and design flow,Technical training,Classroom Training,IC Design,Intermediate,Both,Multi day
-SOI Design,Technical training,Classroom Training,IC Design,Intermediate,Both,Multi day
-GTS TCAD Tools for Design-Technology-Co-Optimization of Logic Cells ,Technical training,Handson training,IC Design,Intermediate,Both,1 day
-GTS Tools in a Nutshell - Introduction to advanced TCAD for Pathfinding Applications,Technical training,Handson training,IC Design,Basic,Both,1 day
-Analog RF Circuit design in finfet technologies,Technical training,Seminar,IC Design,Medium,External only,1 day
-Essential verification with SystemVerilog and UVM ,Technical training,Handson training,IC Design,Intermediate,Both,Multi day
-Advanced verification with UVM,Technical training,Handson training,IC Design,Expert,Both,Multi day
-Hyperspectral Colony Counting for food safety testing,Technical training,Classroom,Life Science,Low,Both,1 day
-Hybrid Materials and Technologies for Energy Storage Applications,Technical training,Classroom,Life Science,Medium,Both,Multi day
-Life Science Challenges and silicon solutions,Technical training,Seminar,Life Science,Medium,External only,1 day
-Human-robot interactions,Technical training,Recording,Life Science,Intermediate,Both,1 hour
-Keysight Advanced RF,Technical training,Classroom Training,Life Science,Intermediate,Both,1 day
-NERF seminar: Functional ultrasound imaging of the dynamical structure of socio-vocal network in monkeys,Technical training,Seminar,Life Science,Intermediate,Both,1 hour
-NERF seminar: From behavior to circuits: Reverse engineering active sensing in the rodent,Technical training,Seminar,Life Science,Intermediate,Both,1 hour
-NERF Seminar: Encoding of three-dimensional head-displacement vectors for goal-oriented actions in the mouse,Technical training,Seminar,Life Science,Intermediate,Both,1 hour
-Nanotechnology for Health,Technical training,Classroom,Life Science,Intermediate,Both,Multi day
-Nanotechnology for Health,Technical training,Recording,Life Science,Intermediate,Both,Multiple hours
-Lab on Chip,Technical training,Recording,Life Science,Intermediate,Both,Multiple hours
-Algorithms for pattern detection on streaming data,Technical training,Recording,Life Science,Intermediate,Both,1 hour
-Acquaint: sensors for food,Technical training,Recording,Life Science,Basic,Internal only,1 hour
-Introduction to EUV microlithographic scanner systems,Technical training,Recording,Life Science,Intermediate,Both,1,5 hours
-Introduction to nanoscale CMOS technology: process flow & process steps,Technical training,Classroom Training,Semiconductor Technology,Intermediate,Both,Multi day
-Introduction to nanoscale CMOS technology: process flow & process steps,Technical training,Recording,Semiconductor Technology,Intermediate,Both,Multiple hours
-BEOL Training,Technical training,Seminar,Semiconductor Technology,Basic,Both,1 hour
-NX3DM (in-line 3D AFM) Data Offline Analysis,Technical training,Classroom Training,Semiconductor Technology,Basic,Both,Multiple hours
-Reliability and Failure mechanisms in advanced CMOS technologies,Technical training,Classroom Training,Semiconductor Technology,Intermediate,Both,Multi day
-Advanced CMOS process technology,Technical training,Classroom Training,Semiconductor Technology,Intermediate,Both,Multi day
-The Opportunities offered by a novel approach to graphene on silicon,Technical training,Recording,Semiconductor Technology,Intermediate,Both,1 hour
-Recent Advances in Understanding the Bias temperature Instability,Technical training,Recording,Semiconductor Technology,Intermediate,Both,1 hour
-Nanoscale CMOS process technology,Technical training,Classroom,Semiconductor Technology,Intermediate,Both,Multi day
-Advanced Lithography,Technical training,Recording,Semiconductor Technology,Intermediate,Both,1,5 hours
-Component- and system-level ESD,Technical training,Classroom,Semiconductor Technology,High,External only,Multi day
+Course,Type,Format delivery,Area of interest,Level of expertise,Target profile,Duration,
+Insights Team Effectiveness,Buseinss training,Classroom Training,Team Excellence,Basic,Internal only,1 day,This course will provide you with a wealth of insights and tips for public speaking
+imec Time - employee,Buseinss training,Online,Personal Excellence,Basic,Internal only,10min,This course will provide you with a wealth of insights and tips for public speaking
+imec Time - manager,Buseinss training,Online,Personal Excellence,Basic,Internal only,10min,This course will provide you with a wealth of insights and tips for public speaking
+Tax Formalities in Belgium,Buseinss training,Online,Personal Excellence,Basic,Internal only,2 hours,This course will provide you with a wealth of insights and tips for public speaking
+English Language training (BLCC),Buseinss training,Classroom Training,Personal Excellence,Basic,Internal only,Multiple day,This course will provide you with a wealth of insights and tips for public speaking
+Presentation Skills (Kluwer),Buseinss training,Classroom Training,Personal Excellence,Basic,Internal only,Multiple day,This course will provide you with a wealth of insights and tips for public speaking
+Time Management (Kluwer),Buseinss training,Classroom Training,Personal Excellence,Basic,Internal only,1 day,This course will provide you with a wealth of insights and tips for public speaking
+Manage your personal growth,Buseinss training,Classroom Training,Personal Excellence,Basic,Internal only,Multiple day,This course will provide you with a wealth of insights and tips for public speaking
+Communicating effectively as a leader (Kluwer),Buseinss training,Classroom Training,Leadership Excellence,Basic,Internal only,1 day,This course will provide you with a wealth of insights and tips for public speaking
+Enhance your coaching skills,Buseinss training,Classroom Training,Leadership Excellence,Basic,Internal only,1 day,This course will provide you with a wealth of insights and tips for public speaking
+Giving feedback with impact,Buseinss training,Classroom Training,Leadership Excellence,Basic,Internal only,1 day,This course will provide you with a wealth of insights and tips for public speaking
+Leading people through change (Kluwer),Buseinss training,Classroom Training,Leadership Excellence,Basic,Internal only,Multiple day,This course will provide you with a wealth of insights and tips for public speaking
+Interviewing skills: selecting the right people,Buseinss training,Classroom Training,Leadership Excellence,Basic,Internal only,1 day,This course will provide you with a wealth of insights and tips for public speaking
+Public speaking for researchers,Buseinss training,Classroom Training,Research Excellence,Basic,Internal only,Multiple day,This course will provide you with a wealth of insights and tips for public speaking
+Scientific writing,Buseinss training,Classroom Training,Research Excellence,Basic,Internal only,Multiple day,This course will provide you with a wealth of insights and tips for public speaking
+Finance basics for non finance staff,Buseinss training,Classroom Training,Research Excellence,Basic,Internal only,1 day,This course will provide you with a wealth of insights and tips for public speaking
+Research integrety at imec,Buseinss training,Online,Research Excellence,Basic,Internal only,1 hour,This course will provide you with a wealth of insights and tips for public speaking
+IP Business protection,Buseinss training,Online,Research Excellence,Basic,Internal only,1 hour,This course will provide you with a wealth of insights and tips for public speaking
+Europractice Photonic Integrated Circuit (PIC) Training,Technical training,Classroom Training,IC Design,Intermediate,Both,Multi day,This course will provide you with a wealth of insights and tips for public speaking
+imec circuits & systems conference,Technical training,Classroom Training,IC Design,Intermediate,Internal only,1 day,This course will provide you with a wealth of insights and tips for public speaking
+Machine Learning: Neuronal Networks and Deep Learning Systems,Technical training,Classroom Training,IC Design,Intermediate,Both,Multi day,This course will provide you with a wealth of insights and tips for public speaking
+VHDL Language and design flow,Technical training,Classroom Training,IC Design,Intermediate,Both,Multi day,This course will provide you with a wealth of insights and tips for public speaking
+SOI Design,Technical training,Classroom Training,IC Design,Intermediate,Both,Multi day,This course will provide you with a wealth of insights and tips for public speaking
+GTS TCAD Tools for Design-Technology-Co-Optimization of Logic Cells ,Technical training,Handson training,IC Design,Intermediate,Both,1 day,This course will provide you with a wealth of insights and tips for public speaking
+GTS Tools in a Nutshell - Introduction to advanced TCAD for Pathfinding Applications,Technical training,Handson training,IC Design,Basic,Both,1 day,This course will provide you with a wealth of insights and tips for public speaking
+Analog RF Circuit design in finfet technologies,Technical training,Seminar,IC Design,Medium,External only,1 day,This course will provide you with a wealth of insights and tips for public speaking
+Essential verification with SystemVerilog and UVM ,Technical training,Handson training,IC Design,Intermediate,Both,Multi day,This course will provide you with a wealth of insights and tips for public speaking
+Advanced verification with UVM,Technical training,Handson training,IC Design,Expert,Both,Multi day,This course will provide you with a wealth of insights and tips for public speaking
+Hyperspectral Colony Counting for food safety testing,Technical training,Classroom,Life Science,Low,Both,1 day,This course will provide you with a wealth of insights and tips for public speaking
+Hybrid Materials and Technologies for Energy Storage Applications,Technical training,Classroom,Life Science,Medium,Both,Multi day,This course will provide you with a wealth of insights and tips for public speaking
+Life Science Challenges and silicon solutions,Technical training,Seminar,Life Science,Medium,External only,1 day,This course will provide you with a wealth of insights and tips for public speaking
+Human-robot interactions,Technical training,Recording,Life Science,Intermediate,Both,1 hour,This course will provide you with a wealth of insights and tips for public speaking
+Keysight Advanced RF,Technical training,Classroom Training,Life Science,Intermediate,Both,1 day,This course will provide you with a wealth of insights and tips for public speaking
+NERF seminar: Functional ultrasound imaging of the dynamical structure of socio-vocal network in monkeys,Technical training,Seminar,Life Science,Intermediate,Both,1 hour,This course will provide you with a wealth of insights and tips for public speaking
+NERF seminar: From behavior to circuits: Reverse engineering active sensing in the rodent,Technical training,Seminar,Life Science,Intermediate,Both,1 hour,This course will provide you with a wealth of insights and tips for public speaking
+NERF Seminar: Encoding of three-dimensional head-displacement vectors for goal-oriented actions in the mouse,Technical training,Seminar,Life Science,Intermediate,Both,1 hour,This course will provide you with a wealth of insights and tips for public speaking
+Nanotechnology for Health,Technical training,Classroom,Life Science,Intermediate,Both,Multi day,This course will provide you with a wealth of insights and tips for public speaking
+Nanotechnology for Health,Technical training,Recording,Life Science,Intermediate,Both,Multiple hours,This course will provide you with a wealth of insights and tips for public speaking
+Lab on Chip,Technical training,Recording,Life Science,Intermediate,Both,Multiple hours,This course will provide you with a wealth of insights and tips for public speaking
+Algorithms for pattern detection on streaming data,Technical training,Recording,Life Science,Intermediate,Both,1 hour,This course will provide you with a wealth of insights and tips for public speaking
+Acquaint: sensors for food,Technical training,Recording,Life Science,Basic,Internal only,1 hour,This course will provide you with a wealth of insights and tips for public speaking
+Introduction to EUV microlithographic scanner systems,Technical training,Recording,Life Science,Intermediate,Both,1,5 hours,This course will provide you with a wealth of insights and tips for public speaking
+Introduction to nanoscale CMOS technology: process flow & process steps,Technical training,Classroom Training,Semiconductor Technology,Intermediate,Both,Multi day,This course will provide you with a wealth of insights and tips for public speaking
+Introduction to nanoscale CMOS technology: process flow & process steps,Technical training,Recording,Semiconductor Technology,Intermediate,Both,Multiple hours,This course will provide you with a wealth of insights and tips for public speaking
+BEOL Training,Technical training,Seminar,Semiconductor Technology,Basic,Both,1 hour,This course will provide you with a wealth of insights and tips for public speaking
+NX3DM (in-line 3D AFM) Data Offline Analysis,Technical training,Classroom Training,Semiconductor Technology,Basic,Both,Multiple hours,This course will provide you with a wealth of insights and tips for public speaking
+Reliability and Failure mechanisms in advanced CMOS technologies,Technical training,Classroom Training,Semiconductor Technology,Intermediate,Both,Multi day,This course will provide you with a wealth of insights and tips for public speaking
+Advanced CMOS process technology,Technical training,Classroom Training,Semiconductor Technology,Intermediate,Both,Multi day,This course will provide you with a wealth of insights and tips for public speaking
+The Opportunities offered by a novel approach to graphene on silicon,Technical training,Recording,Semiconductor Technology,Intermediate,Both,1 hour,This course will provide you with a wealth of insights and tips for public speaking
+Recent Advances in Understanding the Bias temperature Instability,Technical training,Recording,Semiconductor Technology,Intermediate,Both,1 hour,This course will provide you with a wealth of insights and tips for public speaking
+Nanoscale CMOS process technology,Technical training,Classroom,Semiconductor Technology,Intermediate,Both,Multi day,This course will provide you with a wealth of insights and tips for public speaking
+Advanced Lithography,Technical training,Recording,Semiconductor Technology,Intermediate,Both,1,5 hours,This course will provide you with a wealth of insights and tips for public speaking
+Component- and system-level ESD,Technical training,Classroom,Semiconductor Technology,High,External only,Multi day,This course will provide you with a wealth of insights and tips for public speaking
