@@ -14,8 +14,11 @@ var formatOfDelivery = [];
 //positions of the parameters in the csv
 var titlePosition = 0;
 var typePosition = 1;
+var formatPosition = 2;
 var interestPosition = 3;
 var expertisePosition = 4;
+var targetPosition = 5;
+var durationPosition = 6;
 var infoPosition = 7;
 
 function reset(){
@@ -28,11 +31,11 @@ function reset(){
 function mapItemsToFields(){
   title = mapItemToField(titlePosition);
   type = mapItemToField(typePosition);
-  formatOfDelivery = mapItemToField(2);
+  formatOfDelivery = mapItemToField(formatPosition);
   areasOfInterest = mapItemToField(interestPosition);
   levelOfExpertise = mapItemToField(expertisePosition);
-  targetProfile = mapItemToField(5);
-  duration = mapItemToField(6);
+  targetProfile = mapItemToField(targetPosition);
+  duration = mapItemToField(durationPosition);
   info = mapItemToField(infoPosition);
 }
 
@@ -156,16 +159,23 @@ bot.dialog('findCourseDialog', [
   function (session, results) {
       session.dialogData.title = results.response;
       findCoursesByContext(titlePosition,results.response.entity);
-      //mapItemsToFields();
       console.log("******info");
       console.log(courses[0][infoPosition]);
       session.send(courses[0][infoPosition]);
+      session.send("Expertise level: "+courses[0][expertisePosition]);
+      session.send("Duration: "+courses[0][durationPosition]);
+      session.send("Target audience: "+courses[0][targetPosition]);
+      session.send("Delivery format: "+courses[0][formatPosition]);
       //builder.Prompts.choice(session, "Please provide an area of interest", areasOfInterest, { listStyle: builder.ListStyle.button });
       builder.Prompts.choice(session, "Would you like to enroll in this course?", ["yes","no"], { listStyle: builder.ListStyle.button });
   },
   function (session, results) {
     if (results.response.entity == "yes") {
-        builder.Prompts.text(session, "What is your name?");
+        builder.Prompts.text(session, "What is your email address?");
+        }
+        else {
+          reset()
+          session.send("Ok, would you like to look for another course?");
         }
   },
   function (session, results) {
