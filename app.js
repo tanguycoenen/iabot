@@ -14,6 +14,10 @@ var targetPosition = 5;
 var durationPosition = 6;
 var infoPosition = 7;
 
+var internalTag = "Internal only";
+var externalTag = "External only";
+var bothTag = "Both";
+
 function reset(){
   csv.parseCSV("courses.csv", function(data){
      courses = data;
@@ -114,8 +118,19 @@ bot.dialog('findCourseDialog', [
   //todo: make sure the choices can be made are restricted by the previous choices, so the user is more likely to find a course
   function (session) {
       session.send("Ok, let's go find you a course...");
-      type = removeDuplicates(courses,typePosition)
-      builder.Prompts.choice(session, "What type of course are you interested in?", type, { listStyle: builder.ListStyle.button });
+      builder.Prompts.choice(session, "Are you on the imec payroll?", ["yes","no"], { listStyle: builder.ListStyle.button });
+  },
+  function (session, results) {
+    //todo: add selection by target
+    filteredCourses = [];
+    if (results.response.entity == "yes") {
+        filteredCourses = findCoursesByContext(targetPosition,internalTag,bothTag);
+    }
+    if (results.response.entity == "no") {
+        filteredCourses = findCoursesByContext(targetPosition,externalTag,bothTag);
+    }
+    type = removeDuplicates(filteredCourses,typePosition)
+    builder.Prompts.choice(session, "What type of course are you interested in?", type, { listStyle: builder.ListStyle.button });
   },
   function (session, results) {
       session.dialogData.type = results.response;
@@ -180,5 +195,12 @@ searchTerm: the string which the search should match
 */
 function findCoursesByContext(searchIndex,searchTerm) {
   filteredCourses = courses.filter(o => o[searchIndex] === searchTerm);
+  return filteredCourses;
+}
+
+function findCoursesByContext(searchIndex,searchTerm1,searchTerm2) {
+  console.log("*******overloaded version of findCourses")
+  filteredCourses = courses.filter(o => (o[searchIndex] === searchTerm1 || o[searchIndex] === searchTerm2));
+  console.log(filteredCourses);
   return filteredCourses;
 }
