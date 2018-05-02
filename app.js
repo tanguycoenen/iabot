@@ -41,6 +41,7 @@ server.listen(process.env.port || process.env.PORT || 3978, function () {
    console.log('%s listening to %s', server.name, server.url);
 });
 
+// web server
 var http = require('http');
 var fs = require("fs");
 
@@ -85,7 +86,7 @@ var intents = new builder.IntentDialog({ recognizers: [recognizer] })
     session.send('Sorry, I did not understand \'%s\'.', session.message.text);
 });
 
-//bot.dialog('/', intents);
+bot.dialog('/', intents);
 //bot.dialog('/', startDialog);
 
 bot.dialog('startDialog', [
