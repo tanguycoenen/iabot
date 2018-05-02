@@ -22,7 +22,6 @@ function reset(){
 }
 
 function removeDuplicates(coursesArray,colnr) {
-  //todo make more efficient by only cycling though the coursesArray elements that are in the colnr
   var newArray = [];
   var i = 0;
   for(var course of coursesArray){
@@ -34,7 +33,6 @@ function removeDuplicates(coursesArray,colnr) {
   return newArray;
 }
 
-
 reset();
 
 // Setup Restify Server
@@ -43,13 +41,23 @@ server.listen(process.env.port || process.env.PORT || 3978, function () {
    console.log('%s listening to %s', server.name, server.url);
 });
 
+var http = require('http');
+var fs = require("fs");
+
+http.createServer(function(request, response) {
+  fs.readFile("test.html", function(err, data){
+    response.writeHead(200, {'Content-Type': 'text/html'});
+    response.write(data);
+    response.end();
+  });
+}).listen(3000);
+
+
+
 // Create chat connector for communicating with the Bot Framework Service
 var connector = new builder.ChatConnector({
     appId: process.env.MicrosoftAppId,
     appPassword: process.env.MicrosoftAppPassword
-    /*When using the emulator, use the null credentials*/
-    //appId: null,
-    //appPassword: null
 });
 
 
@@ -68,7 +76,6 @@ var intents = new builder.IntentDialog({ recognizers: [recognizer] })
     session.beginDialog('startDialog');
 })
 .matches('find_course', (session) => {
-    //session.send("Let's try to find you a course");
     session.beginDialog('findCourseDialog');
 })
 .matches('Cancel', (session) => {
@@ -78,7 +85,8 @@ var intents = new builder.IntentDialog({ recognizers: [recognizer] })
     session.send('Sorry, I did not understand \'%s\'.', session.message.text);
 });
 
-bot.dialog('/', intents);
+//bot.dialog('/', intents);
+//bot.dialog('/', startDialog);
 
 bot.dialog('startDialog', [
   function (session) {
@@ -88,15 +96,21 @@ bot.dialog('startDialog', [
   function (session, results) {
     if (results.response.entity == "yes")
         session.beginDialog('findCourseDialog');
+    else   session.beginDialog('endDialog');
   }
   ]);
 
+bot.dialog('endDialog', [
+    function (session) {
+      session.send('Ok, see you next time then. Feel free to contact me at any time of the day!');
+      session.endDialog("It was lovely talking to you!");
+    }
+    ]);
 
 bot.dialog('findCourseDialog', [
-  //todo: add search dialgoue for type and formatOfDelivery
   //todo: make sure the choices can be made are restricted by the previous choices, so the user is more likely to find a course
   function (session) {
-      session.send("Ok, let's go...");
+      session.send("Ok, let's go find you a course...");
       type = removeDuplicates(courses,typePosition)
       builder.Prompts.choice(session, "What type of course are you interested in?", type, { listStyle: builder.ListStyle.button });
   },
@@ -127,20 +141,26 @@ bot.dialog('findCourseDialog', [
       builder.Prompts.choice(session, "Would you like to enroll in this course?", ["yes","no"], { listStyle: builder.ListStyle.button });
   },
   function (session, results) {
-    if (results.response.entity == "yes") {
-        builder.Prompts.text(session, "What is your email address?");
-        }
-        else {
-          //reset()
-          session.send("Ok, would you like to look for another course?");
-        }
+      if (results.response.entity == "yes") {
+          builder.Prompts.choice(session, "What is your email address?");
+          }
+      else {
+        builder.Prompts.choice(session,"Ok, would you like to look for another course?", ["yes","no"], { listStyle: builder.ListStyle.button });
+      }
   },
   function (session, results) {
-      session.dialogData.email = results.response;
-      session.send(results.response.entity);
-      session.send("Ok, one of my collegues at imec Academy wil get in touch for more info on this course.");
-      //reset();
-      session.endDialog("It was lovely talking to you!");
+      if (results.response.entity == "yes") {
+        session.beginDialog('findCourseDialog');
+      }
+      if (results.response.entity == "no") {
+        session.beginDialog('endDialog');
+      }
+      if ((results.response.entity != "no") && (results.response.entity != "yes")) {
+        console.log("************enrolling logic");
+        session.dialogData.email = results.response;
+        session.send(results.response.entity);
+        session.send("Ok, one of my collegues at imec Academy wil get in touch for more info on this course.");
+      }
   }
   ]);
 
@@ -157,8 +177,6 @@ searchIndex: the column of the array in which to search
 searchTerm: the string which the search should match
 */
 function findCoursesByContext(searchIndex,searchTerm) {
-  //substitute the courses global variable by a smaller subset
-  //working with global vars in this way is bad practice, shuold be refactored
   filteredCourses = courses.filter(o => o[searchIndex] === searchTerm);
   return filteredCourses;
 }
