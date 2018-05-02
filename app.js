@@ -21,6 +21,9 @@ function reset(){
    },false);
 }
 
+/*
+removes duplicate exntries in a vertain column of an array and returns this diplicate-free 1-dimensional array
+*/
 function removeDuplicates(coursesArray,colnr) {
   var newArray = [];
   var i = 0;
@@ -41,20 +44,6 @@ server.listen(process.env.port || process.env.PORT || 3978, function () {
    console.log('%s listening to %s', server.name, server.url);
 });
 
-// web server
-var http = require('http');
-var fs = require("fs");
-
-http.createServer(function(request, response) {
-  fs.readFile("test.html", function(err, data){
-    response.writeHead(200, {'Content-Type': 'text/html'});
-    response.write(data);
-    response.end();
-  });
-}).listen(3000);
-
-
-
 // Create chat connector for communicating with the Bot Framework Service
 var connector = new builder.ChatConnector({
     appId: process.env.MicrosoftAppId,
@@ -67,12 +56,16 @@ server.post('/api/messages', connector.listen());
 
 var inMemoryStorage = new builder.MemoryBotStorage();
 
-var bot = new builder.UniversalBot(connector);
+var bot = new builder.UniversalBot(connector,[
+  function (session) {
+    session.beginDialog('startDialog');
+  }
+]).set('storage', inMemoryStorage);
 
 const LuisModelUrl = 'https://westus.api.cognitive.microsoft.com/luis/v2.0/apps/8ef54f6e-1b7c-493b-b93d-45668bf93dbf?subscription-key=a1f8565cfb844254b2ff3b7076896d9a&verbose=true&timezoneOffset=60&q=';
 
 var recognizer = new builder.LuisRecognizer(LuisModelUrl);
-var intents = new builder.IntentDialog({ recognizers: [recognizer] })
+var intents = new builder.IntentDialog({ recognizers: [recognizer]})
 .matches('identity', (session) => {
     session.beginDialog('startDialog');
 })
@@ -84,14 +77,23 @@ var intents = new builder.IntentDialog({ recognizers: [recognizer] })
 })
 .onDefault((session) => {
     session.send('Sorry, I did not understand \'%s\'.', session.message.text);
-});
+})
 
-bot.dialog('/', intents);
-//bot.dialog('/', startDialog);
+//bot.dialog('/', intents);
+
+  bot.on('conversationUpdate', function (message) {
+      if (message.membersAdded) {
+          message.membersAdded.forEach(function (identity) {
+              if (identity.id === message.address.bot.id) {
+                  bot.beginDialog(message.address, '/');
+              }
+          });
+      }
+  });
 
 bot.dialog('startDialog', [
   function (session) {
-    session.send('I am the Imec Academy bot, AIBOT for short, nice to meet you');
+    session.send('Hi there, I am the Imec Academy bot, AIBOT for short, nice to meet you!');
     builder.Prompts.choice(session, "Would you like me to help you find one of our great courses?", ["yes","no"], { listStyle: builder.ListStyle.button });
   },
   function (session, results) {
@@ -102,11 +104,11 @@ bot.dialog('startDialog', [
   ]);
 
 bot.dialog('endDialog', [
-    function (session) {
-      session.send('Ok, see you next time then. Feel free to contact me at any time of the day!');
-      session.endDialog("It was lovely talking to you!");
-    }
-    ]);
+  function (session) {
+    session.send('Ok, see you next time then. Feel free to contact me at any time of the day!');
+    session.endDialog("It was lovely talking to you!");
+  }
+  ]);
 
 bot.dialog('findCourseDialog', [
   //todo: make sure the choices can be made are restricted by the previous choices, so the user is more likely to find a course
@@ -157,7 +159,6 @@ bot.dialog('findCourseDialog', [
         session.beginDialog('endDialog');
       }
       if ((results.response.entity != "no") && (results.response.entity != "yes")) {
-        console.log("************enrolling logic");
         session.dialogData.email = results.response;
         session.send(results.response.entity);
         session.send("Ok, one of my collegues at imec Academy wil get in touch for more info on this course.");
@@ -165,13 +166,13 @@ bot.dialog('findCourseDialog', [
   }
   ]);
 
-    // The dialog stack is cleared and this dialog is invoked when the user enters 'help'.
-    bot.dialog('help', function (session, args, next) {
-        session.endDialog("I can help you find an imec Academy course. Let's try it out.");
-    })
-    .triggerAction({
-        matches: /^help$/i,
-    });
+  // The dialog stack is cleared and this dialog is invoked when the user enters 'help'.
+  bot.dialog('help', function (session, args, next) {
+      session.endDialog("I can help you find an imec Academy course. Let's try it out.");
+  })
+  .triggerAction({
+      matches: /^help$/i,
+  });
 
 /*
 searchIndex: the column of the array in which to search
