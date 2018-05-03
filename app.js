@@ -147,6 +147,7 @@ bot.dialog('findCourseDialog', [
         session.dialogData.type = "Technical training"
         }
       filteredCourses = findCoursesByContext(typePosition,session.dialogData.type);
+      session.dialogData.filteredCourses = filteredCourses;
       areaOfInterest = removeDuplicates(filteredCourses,interestPosition)
       builder.Prompts.choice(session, "Please provide an area of interest", areaOfInterest, { listStyle: builder.ListStyle.button });
   },
