@@ -85,6 +85,9 @@ var intents = new builder.IntentDialog({ recognizers: [recognizer]})
 
 //bot.dialog('/', intents);
 
+/*
+Make sure that the default dialog is started when the user initiates a new session
+*/
   bot.on('conversationUpdate', function (message) {
       if (message.membersAdded) {
           message.membersAdded.forEach(function (identity) {
@@ -120,21 +123,30 @@ bot.dialog('findCourseDialog', [
       session.send("Ok, let's go find you a course...");
       builder.Prompts.choice(session, "Are you on the imec payroll?", ["yes","no"], { listStyle: builder.ListStyle.button });
   },
-  function (session, results) {
+  function (session, results,next) {
     //todo: add selection by target
     filteredCourses = [];
+    session.dialogData.employeeType = "";
     if (results.response.entity == "yes") {
+        session.dialogData.employeeType = internalTag
         filteredCourses = findCoursesByContext(targetPosition,internalTag,bothTag);
+        type = removeDuplicates(filteredCourses,typePosition)
+        builder.Prompts.choice(session, "What type of course are you interested in?", type, { listStyle: builder.ListStyle.button });
     }
     if (results.response.entity == "no") {
-        filteredCourses = findCoursesByContext(targetPosition,externalTag,bothTag);
+        session.dialogData.employeeType = externalTag;
+        next();
     }
-    type = removeDuplicates(filteredCourses,typePosition)
-    builder.Prompts.choice(session, "What type of course are you interested in?", type, { listStyle: builder.ListStyle.button });
   },
   function (session, results) {
-      session.dialogData.type = results.response;
-      filteredCourses = findCoursesByContext(typePosition,results.response.entity);
+      if (session.dialogData.employeeType == internalTag) {
+        session.dialogData.type = results.response;
+        }
+      if (session.dialogData.employeeType == externalTag) {
+        //todo: make sure the following string is read from the csv and not hard-coded
+        session.dialogData.type = "Technical training"
+        }
+      filteredCourses = findCoursesByContext(typePosition,session.dialogData.type);
       areaOfInterest = removeDuplicates(filteredCourses,interestPosition)
       builder.Prompts.choice(session, "Please provide an area of interest", areaOfInterest, { listStyle: builder.ListStyle.button });
   },
