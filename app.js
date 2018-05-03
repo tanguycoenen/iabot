@@ -146,7 +146,7 @@ bot.dialog('findCourseDialog', [
         //todo: make sure the following string is read from the csv and not hard-coded
         session.dialogData.type = "Technical training"
         }
-      filteredCourses = findCoursesByContext(typePosition,session.dialogData.type);
+      filteredCourses = findCoursesByContext(typePosition,session.dialogData.type.entity);
       session.dialogData.filteredCourses = filteredCourses;
       areaOfInterest = removeDuplicates(filteredCourses,interestPosition)
       builder.Prompts.choice(session, "Please provide an area of interest", areaOfInterest, { listStyle: builder.ListStyle.button });
@@ -161,8 +161,6 @@ bot.dialog('findCourseDialog', [
   function (session, results) {
       session.dialogData.title = results.response;
       filteredCourses = findCoursesByContext(titlePosition,results.response.entity);
-      console.log("******info");
-      console.log(filteredCourses[0][infoPosition]);
       session.send(filteredCourses[0][infoPosition]);
       session.send("Expertise level: "+filteredCourses[0][expertisePosition]);
       session.send("Duration: "+filteredCourses[0][durationPosition]);
@@ -173,8 +171,8 @@ bot.dialog('findCourseDialog', [
   },
   function (session, results) {
       if (results.response.entity == "yes") {
-          builder.Prompts.choice(session, "What is your email address?");
-          }
+        builder.Prompts.text(session, "What is your email address?");
+      }
       else {
         builder.Prompts.choice(session,"Ok, would you like to look for another course?", ["yes","no"], { listStyle: builder.ListStyle.button });
       }
@@ -190,6 +188,7 @@ bot.dialog('findCourseDialog', [
         session.dialogData.email = results.response;
         session.send(results.response.entity);
         session.send("Ok, one of my collegues at imec Academy wil get in touch for more info on this course.");
+        session.beginDialog('startDialog');
       }
   }
   ]);
