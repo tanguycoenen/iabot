@@ -1,3 +1,14 @@
+/*
+Als het mogelijk is, zou ik de chatbot graag nog wat meer vragen laten stellen op basis van de variabelen in de Excel lijst? Hieronder alvast een voorstel:
+1.       Are you an imec employee? YES/NO (kolom E)
+2.       What type of courses are you interested? BUSINESS TRAINING / TECHNICAL TRAINING (wordt reeds gevraagd door de bot maar zou enkel gevraagd moeten worden als het een imec medewerker is gezien een externe geen toegang heeft tot business trainings)
+3.       Please provide an area of interest? (is ok) (kolom C)
+4.       What is your level of expertise in this area? BASIC/INTERMEDIATE/HIGH (select one or more) (kolom D)
+5.       In which type of training format(s) are you interested? CLASSROOM/HANDSON/SEMINAR/RECORDING (select one or more) (kolom B)
+6.       Als resultaat zou de person één of meerdere relevante trainings moeten zien. Als hij/zij daarop doorklikt zou hij/zij enkel een korte omschrijving moeten zien en de duurtijd (en dus liefst niet meer de expertise level, target audience en delivery format gezien deze al in de vragen verwerkt zijn)
+*/
+
+
 var restify = require('restify');
 var builder = require('botbuilder');
 var csv = require('csv-array');
@@ -21,7 +32,6 @@ var bothTag = "Both";
 function reset(){
   csv.parseCSV("courses.csv", function(data){
      courses = data;
-     //mapItemsToFields();
    },false);
 }
 
@@ -140,15 +150,15 @@ bot.dialog('findCourseDialog', [
   },
   function (session, results) {
       if (session.dialogData.employeeType == internalTag) {
-        session.dialogData.type = results.response;
+        session.dialogData.type = results.response.entity;
         }
       if (session.dialogData.employeeType == externalTag) {
         //todo: make sure the following string is read from the csv and not hard-coded
         session.dialogData.type = "Technical training"
         }
-      filteredCourses = findCoursesByContext(typePosition,session.dialogData.type.entity);
+      filteredCourses = findCoursesByContext(typePosition,session.dialogData.type);
       session.dialogData.filteredCourses = filteredCourses;
-      areaOfInterest = removeDuplicates(filteredCourses,interestPosition)
+      areaOfInterest = removeDuplicates(filteredCourses,interestPosition);
       builder.Prompts.choice(session, "Please provide an area of interest", areaOfInterest, { listStyle: builder.ListStyle.button });
   },
   function (session, results) {
@@ -211,7 +221,6 @@ function findCoursesByContext(searchIndex,searchTerm) {
 }
 
 function findCoursesByContext(searchIndex,searchTerm1,searchTerm2) {
-  console.log("*******overloaded version of findCourses")
   filteredCourses = courses.filter(o => (o[searchIndex] === searchTerm1 || o[searchIndex] === searchTerm2));
   console.log(filteredCourses);
   return filteredCourses;
