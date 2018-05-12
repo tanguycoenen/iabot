@@ -35,21 +35,6 @@ function reset(){
    },false);
 }
 
-/*
-removes duplicate exntries in a vertain column of an array and returns this diplicate-free 1-dimensional array
-*/
-function removeDuplicates(coursesArray,colnr) {
-  var newArray = [];
-  var i = 0;
-  for(var course of coursesArray){
-    if (!newArray.includes(course[colnr])&&i>0){
-      newArray.push(course[colnr]);
-      }
-    i=i+1;
-  }
-  return newArray;
-}
-
 reset();
 
 // Setup Restify Server
@@ -146,6 +131,8 @@ bot.dialog('findCourseDialog', [
     }
     if (results.response.entity == "no") {
         session.dialogData.employeeType = externalTag;
+        filteredCourses = findCoursesByContext(targetPosition,externalTag,bothTag);
+        session.dialogData.filteredCourses = filteredCourses;
         next();
     }
   },
@@ -167,12 +154,19 @@ bot.dialog('findCourseDialog', [
     filteredCourses = findCourses(session.dialogData.filteredCourses,interestPosition,results.response.entity);
     session.dialogData.filteredCourses = filteredCourses;
     expertise = removeDuplicates(filteredCourses,expertisePosition);
-    builder.Prompts.choice(session, "WWhat is your level of expertise in this area?", expertise, { listStyle: builder.ListStyle.button });
+    builder.Prompts.choice(session, "What is your level of expertise in this area?", expertise, { listStyle: builder.ListStyle.button });
+  },
+  function (session, results) {
+    //session.dialogData.expertiseLevel = results.response;
+    filteredCourses = findCourses(session.dialogData.filteredCourses,expertisePosition,results.response.entity);
+    session.dialogData.filteredCourses = filteredCourses;
+    deliveryFormat = removeDuplicates(filteredCourses,formatPosition);
+    builder.Prompts.choice(session, "What delivery format would you like?", deliveryFormat, { listStyle: builder.ListStyle.button });
   },
   function (session, results) {
     //show only the titles of the selected courses and allow the user to choose one
-    session.dialogData.expertiseLevel = results.response;
-    filteredCourses = findCourses(session.dialogData.filteredCourses,expertisePosition,results.response.entity);
+    //session.dialogData.expertiseLevel = results.response;
+    filteredCourses = findCourses(session.dialogData.filteredCourses,formatPosition,results.response.entity);
     session.dialogData.filteredCourses = filteredCourses;
     title = removeDuplicates(filteredCourses,titlePosition);
     builder.Prompts.choice(session, "We found the following courses for you. Click one to find out more.", title, { listStyle: builder.ListStyle.button });
@@ -230,7 +224,6 @@ function findCoursesByContext(searchIndex,searchTerm) {
 }
 
 function findCourses(coursesToFilter,searchIndex,searchTerm) {
-  console.log("******findCoursesByContext(coursesToFilter,searchIndex,searchTerm)");
   filteredCourses = coursesToFilter.filter(o => o[searchIndex] === searchTerm);
   return filteredCourses;
 }
@@ -238,4 +231,20 @@ function findCourses(coursesToFilter,searchIndex,searchTerm) {
 function findCoursesByContext(searchIndex,searchTerm1,searchTerm2) {
   filteredCourses = courses.filter(o => (o[searchIndex] === searchTerm1 || o[searchIndex] === searchTerm2));
   return filteredCourses;
+}
+
+/*
+removes duplicate exntries in a vertain column of an array and returns this diplicate-free 1-dimensional array
+*/
+function removeDuplicates(coursesArray,colnr) {
+  var newArray = [];
+  var i = 0;
+  for(var course of coursesArray){
+    //if (!newArray.includes(course[colnr])&&i>0){
+    if (!newArray.includes(course[colnr])){
+      newArray.push(course[colnr]);
+      }
+    i=i+1;
+  }
+  return newArray;
 }
