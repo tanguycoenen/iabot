@@ -12,6 +12,7 @@ Als het mogelijk is, zou ik de chatbot graag nog wat meer vragen laten stellen o
 var restify = require('restify');
 var builder = require('botbuilder');
 var csv = require('csv-array');
+var fs = require('fs');
 var courses = [];
 
 
@@ -175,10 +176,10 @@ bot.dialog('findCourseDialog', [
     session.dialogData.title = results.response;
     filteredCourses = findCourses(session.dialogData.filteredCourses,titlePosition,results.response.entity);
     session.send(filteredCourses[0][infoPosition]);
-    session.send("Expertise level: "+filteredCourses[0][expertisePosition]);
+    //session.send("Expertise level: "+filteredCourses[0][expertisePosition]);
     session.send("Duration: "+filteredCourses[0][durationPosition]);
-    session.send("Target audience: "+filteredCourses[0][targetPosition]);
-    session.send("Delivery format: "+filteredCourses[0][formatPosition]);
+    //session.send("Target audience: "+filteredCourses[0][targetPosition]);
+    //session.send("Delivery format: "+filteredCourses[0][formatPosition]);
     //builder.Prompts.choice(session, "Please provide an area of interest", areasOfInterest, { listStyle: builder.ListStyle.button });
     builder.Prompts.choice(session, "Would you like to enroll in this course?", ["yes","no"], { listStyle: builder.ListStyle.button });
   },
@@ -186,7 +187,7 @@ bot.dialog('findCourseDialog', [
     if (results.response.entity == "yes") {
       builder.Prompts.text(session, "What is your email address?");
     }
-    else {
+    if (results.response.entity == "no") {
       builder.Prompts.choice(session,"Ok, would you like to look for another course?", ["yes","no"], { listStyle: builder.ListStyle.button });
     }
   },
@@ -198,7 +199,14 @@ bot.dialog('findCourseDialog', [
       session.beginDialog('endDialog');
     }
     if ((results.response.entity != "no") && (results.response.entity != "yes")) {
-      session.dialogData.email = results.response;
+      //this means an email address was entered to enroll in a course
+      //session.dialogData.email = results.response;
+      var today = new Date();
+      var date = today.getFullYear()+'-'+(today.getMonth()+1)+'-'+today.getDate();
+      var time = today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
+      var registrationDate = date+' '+time;
+      var registrationData = registrationDate+","+results.response+","+session.dialogData.title.entity+"\n";
+      writeToFile(registrationData);
       session.send(results.response.entity);
       session.send("Ok, one of my collegues at imec Academy wil get in touch for more info on this course.");
       session.beginDialog('startDialog');
@@ -238,13 +246,20 @@ removes duplicate exntries in a vertain column of an array and returns this dipl
 */
 function removeDuplicates(coursesArray,colnr) {
   var newArray = [];
-  var i = 0;
   for(var course of coursesArray){
-    //if (!newArray.includes(course[colnr])&&i>0){
     if (!newArray.includes(course[colnr])){
       newArray.push(course[colnr]);
       }
-    i=i+1;
   }
   return newArray;
+}
+
+/*
+write comma-separated data to file
+*/
+function writeToFile(data) {
+  fs.appendFile('registrations.csv', data, function (err) {
+    if (err) throw err;
+    console.log('Saved!');
+  });
 }
