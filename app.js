@@ -130,8 +130,8 @@ bot.dialog('endDialog', [
 bot.dialog('findCourseDialog', [
   //todo: make sure the choices can be made are restricted by the previous choices, so the user is more likely to find a course
   function (session) {
-      session.send("Ok, let's go find you a course...");
-      builder.Prompts.choice(session, "Are you on the imec payroll?", ["yes","no"], { listStyle: builder.ListStyle.button });
+    session.send("Ok, let's go find you a course...");
+    builder.Prompts.choice(session, "Are you on the imec payroll?", ["yes","no"], { listStyle: builder.ListStyle.button });
   },
   function (session, results,next) {
     //todo: add selection by target
@@ -140,6 +140,7 @@ bot.dialog('findCourseDialog', [
     if (results.response.entity == "yes") {
         session.dialogData.employeeType = internalTag
         filteredCourses = findCoursesByContext(targetPosition,internalTag,bothTag);
+        session.dialogData.filteredCourses = filteredCourses;
         type = removeDuplicates(filteredCourses,typePosition)
         builder.Prompts.choice(session, "What type of course are you interested in?", type, { listStyle: builder.ListStyle.button });
     }
@@ -149,57 +150,65 @@ bot.dialog('findCourseDialog', [
     }
   },
   function (session, results) {
-      if (session.dialogData.employeeType == internalTag) {
-        session.dialogData.type = results.response.entity;
-        }
-      if (session.dialogData.employeeType == externalTag) {
-        //todo: make sure the following string is read from the csv and not hard-coded
-        session.dialogData.type = "Technical training"
-        }
-      filteredCourses = findCoursesByContext(typePosition,session.dialogData.type);
-      session.dialogData.filteredCourses = filteredCourses;
-      areaOfInterest = removeDuplicates(filteredCourses,interestPosition);
-      builder.Prompts.choice(session, "Please provide an area of interest", areaOfInterest, { listStyle: builder.ListStyle.button });
+    if (session.dialogData.employeeType == internalTag) {
+      session.dialogData.type = results.response.entity;
+    }
+    if (session.dialogData.employeeType == externalTag) {
+      //todo: make sure the following string is read from the csv and not hard-coded
+      session.dialogData.type = "Technical training"
+    }
+    filteredCourses = findCourses(session.dialogData.filteredCourses,typePosition,session.dialogData.type);
+    session.dialogData.filteredCourses = filteredCourses;
+    areaOfInterest = removeDuplicates(filteredCourses,interestPosition);
+    builder.Prompts.choice(session, "Please provide an area of interest", areaOfInterest, { listStyle: builder.ListStyle.button });
   },
   function (session, results) {
-      //show only the titles of the selected courses and allow the user to choose one
-      session.dialogData.areaOfInterest = results.response;
-      filteredCourses = findCoursesByContext(interestPosition,results.response.entity);
-      title = removeDuplicates(filteredCourses,titlePosition);
-      builder.Prompts.choice(session, "We found the following courses for you. Click one to find out more.", title, { listStyle: builder.ListStyle.button });
+    session.dialogData.areaOfInterest = results.response;
+    filteredCourses = findCourses(session.dialogData.filteredCourses,interestPosition,results.response.entity);
+    session.dialogData.filteredCourses = filteredCourses;
+    expertise = removeDuplicates(filteredCourses,expertisePosition);
+    builder.Prompts.choice(session, "WWhat is your level of expertise in this area?", expertise, { listStyle: builder.ListStyle.button });
   },
   function (session, results) {
-      session.dialogData.title = results.response;
-      filteredCourses = findCoursesByContext(titlePosition,results.response.entity);
-      session.send(filteredCourses[0][infoPosition]);
-      session.send("Expertise level: "+filteredCourses[0][expertisePosition]);
-      session.send("Duration: "+filteredCourses[0][durationPosition]);
-      session.send("Target audience: "+filteredCourses[0][targetPosition]);
-      session.send("Delivery format: "+filteredCourses[0][formatPosition]);
-      //builder.Prompts.choice(session, "Please provide an area of interest", areasOfInterest, { listStyle: builder.ListStyle.button });
-      builder.Prompts.choice(session, "Would you like to enroll in this course?", ["yes","no"], { listStyle: builder.ListStyle.button });
+    //show only the titles of the selected courses and allow the user to choose one
+    session.dialogData.expertiseLevel = results.response;
+    filteredCourses = findCourses(session.dialogData.filteredCourses,expertisePosition,results.response.entity);
+    session.dialogData.filteredCourses = filteredCourses;
+    title = removeDuplicates(filteredCourses,titlePosition);
+    builder.Prompts.choice(session, "We found the following courses for you. Click one to find out more.", title, { listStyle: builder.ListStyle.button });
   },
   function (session, results) {
-      if (results.response.entity == "yes") {
-        builder.Prompts.text(session, "What is your email address?");
-      }
-      else {
-        builder.Prompts.choice(session,"Ok, would you like to look for another course?", ["yes","no"], { listStyle: builder.ListStyle.button });
-      }
+    session.dialogData.title = results.response;
+    filteredCourses = findCourses(session.dialogData.filteredCourses,titlePosition,results.response.entity);
+    session.send(filteredCourses[0][infoPosition]);
+    session.send("Expertise level: "+filteredCourses[0][expertisePosition]);
+    session.send("Duration: "+filteredCourses[0][durationPosition]);
+    session.send("Target audience: "+filteredCourses[0][targetPosition]);
+    session.send("Delivery format: "+filteredCourses[0][formatPosition]);
+    //builder.Prompts.choice(session, "Please provide an area of interest", areasOfInterest, { listStyle: builder.ListStyle.button });
+    builder.Prompts.choice(session, "Would you like to enroll in this course?", ["yes","no"], { listStyle: builder.ListStyle.button });
   },
   function (session, results) {
-      if (results.response.entity == "yes") {
-        session.beginDialog('findCourseDialog');
-      }
-      if (results.response.entity == "no") {
-        session.beginDialog('endDialog');
-      }
-      if ((results.response.entity != "no") && (results.response.entity != "yes")) {
-        session.dialogData.email = results.response;
-        session.send(results.response.entity);
-        session.send("Ok, one of my collegues at imec Academy wil get in touch for more info on this course.");
-        session.beginDialog('startDialog');
-      }
+    if (results.response.entity == "yes") {
+      builder.Prompts.text(session, "What is your email address?");
+    }
+    else {
+      builder.Prompts.choice(session,"Ok, would you like to look for another course?", ["yes","no"], { listStyle: builder.ListStyle.button });
+    }
+  },
+  function (session, results) {
+    if (results.response.entity == "yes") {
+      session.beginDialog('findCourseDialog');
+    }
+    if (results.response.entity == "no") {
+      session.beginDialog('endDialog');
+    }
+    if ((results.response.entity != "no") && (results.response.entity != "yes")) {
+      session.dialogData.email = results.response;
+      session.send(results.response.entity);
+      session.send("Ok, one of my collegues at imec Academy wil get in touch for more info on this course.");
+      session.beginDialog('startDialog');
+    }
   }
   ]);
 
@@ -220,8 +229,13 @@ function findCoursesByContext(searchIndex,searchTerm) {
   return filteredCourses;
 }
 
+function findCourses(coursesToFilter,searchIndex,searchTerm) {
+  console.log("******findCoursesByContext(coursesToFilter,searchIndex,searchTerm)");
+  filteredCourses = coursesToFilter.filter(o => o[searchIndex] === searchTerm);
+  return filteredCourses;
+}
+
 function findCoursesByContext(searchIndex,searchTerm1,searchTerm2) {
   filteredCourses = courses.filter(o => (o[searchIndex] === searchTerm1 || o[searchIndex] === searchTerm2));
-  console.log(filteredCourses);
   return filteredCourses;
 }
