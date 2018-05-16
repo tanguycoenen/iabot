@@ -64,13 +64,7 @@ var inMemoryStorage = new builder.MemoryBotStorage();
 
 var bot = new builder.UniversalBot(connector,[
   function (session) {
-    console.log("******session.started");
-    console.log(session.started);
-    if (session.started == null) {
-      console.log("******session.beginDialog");
-      session.beginDialog('startDialog');
-    }
-    session.started = null;
+    session.beginDialog('startDialog');
   }
 ]).set('storage', inMemoryStorage);
 
@@ -97,19 +91,38 @@ var intents = new builder.IntentDialog({ recognizers: [recognizer]})
 Make sure that the default dialog is started when the user initiates a new session
 */
   bot.on('conversationUpdate', function (message) {
-      if (message.membersAdded) {
-          message.membersAdded.forEach(function (identity) {
-              if (identity.id === message.address.bot.id) {
-                  bot.beginDialog(message.address, '/');
-              }
-          });
-      }
+    if (message.membersAdded) {
+        message.membersAdded.forEach(function(identity) {
+          message.address.user = identity;
+
+            if (identity.id === message.address.bot.id) {
+                bot.beginDialog(message.address, '/');
+            }
+        });
+    }
   });
+
+
+/*  bot.on('conversationUpdate', function (message) {
+    message.address.user = identity;
+    if (message.membersAdded) {
+        message.membersAdded.forEach(function (identity) {
+            if (identity.id == message.address.bot.id) {
+                // Bot is joining conversation (page loaded)
+                bot.beginDialog(message.address, '/');
+            } else {
+                // User is joining conversation (they sent message)
+                var address = Object.create(message.address);
+                address.user = identity;
+                bot.beginDialog(message.address, '/');
+            }
+        });
+    }
+});*/
 
 
 bot.dialog('startDialog', [
     function (session) {
-      session.started = true;
       session.send('Hi there, I am the Imec Academy bot, IABOT for short, nice to meet you!');
       builder.Prompts.choice(session, "Would you like me to help you find one of our great courses?", ["yes","no"], { listStyle: builder.ListStyle.button });
     },
