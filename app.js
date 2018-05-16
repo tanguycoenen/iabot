@@ -90,36 +90,17 @@ var intents = new builder.IntentDialog({ recognizers: [recognizer]})
 /*
 Make sure that the default dialog is started when the user initiates a new session
 */
-  bot.on('conversationUpdate', function (message) {
+/*  bot.on('conversationUpdate', function (message) {
     if (message.membersAdded) {
         message.membersAdded.forEach(function(identity) {
           message.address.user = identity;
-
             if (identity.id === message.address.bot.id) {
                 bot.beginDialog(message.address, '/');
             }
         });
     }
   });
-
-
-/*  bot.on('conversationUpdate', function (message) {
-    message.address.user = identity;
-    if (message.membersAdded) {
-        message.membersAdded.forEach(function (identity) {
-            if (identity.id == message.address.bot.id) {
-                // Bot is joining conversation (page loaded)
-                bot.beginDialog(message.address, '/');
-            } else {
-                // User is joining conversation (they sent message)
-                var address = Object.create(message.address);
-                address.user = identity;
-                bot.beginDialog(message.address, '/');
-            }
-        });
-    }
-});*/
-
+  */
 
 bot.dialog('startDialog', [
     function (session) {
