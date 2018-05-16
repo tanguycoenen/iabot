@@ -90,7 +90,7 @@ var intents = new builder.IntentDialog({ recognizers: [recognizer]})
 /*
 Make sure that the default dialog is started when the user initiates a new session
 */
-  bot.on('conversationUpdate', function (message) {
+/*  bot.on('conversationUpdate', function (message) {
       if (message.membersAdded) {
           message.membersAdded.forEach(function (identity) {
               if (identity.id === message.address.bot.id) {
@@ -99,6 +99,7 @@ Make sure that the default dialog is started when the user initiates a new sessi
           });
       }
   });
+  */
 
 bot.dialog('startDialog', [
   function (session) {
