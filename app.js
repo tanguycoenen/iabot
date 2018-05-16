@@ -1,12 +1,18 @@
 /*
-Als het mogelijk is, zou ik de chatbot graag nog wat meer vragen laten stellen op basis van de variabelen in de Excel lijst? Hieronder alvast een voorstel:
-1.       Are you an imec employee? YES/NO (kolom E)
-2.       What type of courses are you interested? BUSINESS TRAINING / TECHNICAL TRAINING (wordt reeds gevraagd door de bot maar zou enkel gevraagd moeten worden als het een imec medewerker is gezien een externe geen toegang heeft tot business trainings)
-3.       Please provide an area of interest? (is ok) (kolom C)
-4.       What is your level of expertise in this area? BASIC/INTERMEDIATE/HIGH (select one or more) (kolom D)
-5.       In which type of training format(s) are you interested? CLASSROOM/HANDSON/SEMINAR/RECORDING (select one or more) (kolom B)
-6.       Als resultaat zou de person één of meerdere relevante trainings moeten zien. Als hij/zij daarop doorklikt zou hij/zij enkel een korte omschrijving moeten zien en de duurtijd (en dus liefst niet meer de expertise level, target audience en delivery format gezien deze al in de vragen verwerkt zijn)
-*/
+
+-          Wanneer je op ‘no’ klikt bij de eerste vraag, wordt de vraag gewoon opnieuw gesteld. Kunnen we dit veranderen naar het antwoord ‘Have a chat with someone from the team to further discover our offering’.
+
+-          Als je op ‘yes’ klikt, wordt de vraag ook opnieuw gesteld, wanneer je pas voor een tweede keer op “yes” klikt, ga je door naar de volgende vraag
+
+-          Level of expertise is in volgorde intermediate > basic > high, kunnen we dit veranderen naar basic>intermediate>high?
+
+-          De level of expertise vraag bij imec payroll > business training > area of interest > basic of intermediate
+
+o   Deze level of expertise vraag mag worden weg gelaten want is minder relevant (mag wel nog als informatie worden meegeven naar verdere selectie)
+
+-          Ik zou voor het “business training” gedeelte sommige formats willen veranderen van classroom of online naar blended. Kan ik dit nog aanpassen of vraag dit veel herwerking langs jouw kant?
+
+-          Wat gebeurt er als iemand zijn/haar mailadres doorgeeft? Wordt dit naar ons doorgestuurd? Zowel op welk mail adres?*/
 
 
 var restify = require('restify');
@@ -96,19 +102,21 @@ Make sure that the default dialog is started when the user initiates a new sessi
 
 bot.dialog('startDialog', [
   function (session) {
-    session.send('Hi there, I am the Imec Academy bot, AIBOT for short, nice to meet you!');
+    session.send('Hi there, I am the Imec Academy bot, IABOT for short, nice to meet you!');
     builder.Prompts.choice(session, "Would you like me to help you find one of our great courses?", ["yes","no"], { listStyle: builder.ListStyle.button });
   },
   function (session, results) {
     if (results.response.entity == "yes")
-        session.beginDialog('findCourseDialog');
-    else   session.beginDialog('endDialog');
+      session.beginDialog('findCourseDialog');
+    if (results.response.entity == "no")
+      session.beginDialog('endDialog');
   }
   ]);
 
 bot.dialog('endDialog', [
   function (session) {
-    session.send('Ok, see you next time then. Feel free to contact me at any time of the day!');
+    session.send("Ok, see you next time then. Feel free to contact me at any time of the day!");
+    session.send("Or Have a chat with someone from the imec Academy team to further discover our offering.");
     session.endDialog("It was lovely talking to you!");
   }
   ]);
