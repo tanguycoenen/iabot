@@ -73,7 +73,7 @@ const LuisModelUrl = 'https://westus.api.cognitive.microsoft.com/luis/v2.0/apps/
 var recognizer = new builder.LuisRecognizer(LuisModelUrl);
 var intents = new builder.IntentDialog({ recognizers: [recognizer]})
 .matches('identity', (session) => {
-    session.beginDialog('startDialog');
+    //session.beginDialog('startDialog');
 })
 .matches('find_course', (session) => {
     session.beginDialog('findCourseDialog');
