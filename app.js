@@ -64,7 +64,13 @@ var inMemoryStorage = new builder.MemoryBotStorage();
 
 var bot = new builder.UniversalBot(connector,[
   function (session) {
-    session.beginDialog('startDialog');
+    console.log("******session.started");
+    console.log(session.started);
+    if (session.started == null) {
+      console.log("******session.beginDialog");
+      session.beginDialog('startDialog');
+    }
+    session.started = null;
   }
 ]).set('storage', inMemoryStorage);
 
@@ -90,7 +96,7 @@ var intents = new builder.IntentDialog({ recognizers: [recognizer]})
 /*
 Make sure that the default dialog is started when the user initiates a new session
 */
-/*  bot.on('conversationUpdate', function (message) {
+  bot.on('conversationUpdate', function (message) {
       if (message.membersAdded) {
           message.membersAdded.forEach(function (identity) {
               if (identity.id === message.address.bot.id) {
@@ -99,25 +105,26 @@ Make sure that the default dialog is started when the user initiates a new sessi
           });
       }
   });
-  */
+
 
 bot.dialog('startDialog', [
-  function (session) {
-    session.send('Hi there, I am the Imec Academy bot, IABOT for short, nice to meet you!');
-    builder.Prompts.choice(session, "Would you like me to help you find one of our great courses?", ["yes","no"], { listStyle: builder.ListStyle.button });
-  },
-  function (session, results) {
-    if (results.response.entity == "yes")
-      session.beginDialog('findCourseDialog');
-    if (results.response.entity == "no")
-      session.beginDialog('endDialog');
-  }
+    function (session) {
+      session.started = true;
+      session.send('Hi there, I am the Imec Academy bot, IABOT for short, nice to meet you!');
+      builder.Prompts.choice(session, "Would you like me to help you find one of our great courses?", ["yes","no"], { listStyle: builder.ListStyle.button });
+    },
+    function (session, results) {
+      if (results.response.entity == "yes")
+        session.beginDialog('findCourseDialog');
+      if (results.response.entity == "no")
+        session.beginDialog('endDialog');
+    }
   ]);
 
 bot.dialog('endDialog', [
   function (session) {
     session.send("Ok, see you next time then. Feel free to contact me at any time of the day!");
-    session.send("Or Have a chat with someone from the imec Academy team to further discover our offering.");
+    session.send("Or have a chat with someone from the imec Academy team to further discover our offering.");
     session.endDialog("It was lovely talking to you!");
   }
   ]);
