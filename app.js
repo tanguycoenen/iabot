@@ -160,16 +160,17 @@ bot.dialog('findCourseDialog', [
     areaOfInterest = removeDuplicates(filteredCourses,interestPosition);
     builder.Prompts.choice(session, "Please provide an area of interest", areaOfInterest, { listStyle: builder.ListStyle.button });
   },
-  function (session, results) {
+  /*function (session, results) {
     session.dialogData.areaOfInterest = results.response;
     filteredCourses = findCourses(session.dialogData.filteredCourses,interestPosition,results.response.entity);
     session.dialogData.filteredCourses = filteredCourses;
     expertise = removeDuplicates(filteredCourses,expertisePosition);
     builder.Prompts.choice(session, "What is your level of expertise in this area?", expertise, { listStyle: builder.ListStyle.button });
-  },
+  },*/
   function (session, results) {
+    session.dialogData.areaOfInterest = results.response;
     //session.dialogData.expertiseLevel = results.response;
-    filteredCourses = findCourses(session.dialogData.filteredCourses,expertisePosition,results.response.entity);
+    filteredCourses = findCourses(session.dialogData.filteredCourses,interestPosition,results.response.entity);
     session.dialogData.filteredCourses = filteredCourses;
     deliveryFormat = removeDuplicates(filteredCourses,formatPosition);
     builder.Prompts.choice(session, "What delivery format would you like?", deliveryFormat, { listStyle: builder.ListStyle.button });
