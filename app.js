@@ -189,6 +189,7 @@ bot.dialog('findCourseDialog', [
     session.send(filteredCourses[0][infoPosition]);
     //session.send("Expertise level: "+filteredCourses[0][expertisePosition]);
     session.send("Duration: "+filteredCourses[0][durationPosition]);
+    session.send("Level of exepertise: "+filteredCourses[0][expertisePosition]);
     //session.send("Target audience: "+filteredCourses[0][targetPosition]);
     //session.send("Delivery format: "+filteredCourses[0][formatPosition]);
     //builder.Prompts.choice(session, "Please provide an area of interest", areasOfInterest, { listStyle: builder.ListStyle.button });
